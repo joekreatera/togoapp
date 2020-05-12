@@ -57,7 +57,7 @@ var db = app.firestore();
 var state  = GENERAL_QUERY;
 var actualRoutineList = Array();
 
-AWS.config.loadFromPath('./config_aws.json');
+AWS.config.loadFromPath('../config_aws.json');
 
 const Polly = new AWS.Polly({
     signatureVersion: 'v4',
