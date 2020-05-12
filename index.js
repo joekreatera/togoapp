@@ -45,7 +45,7 @@ const ACTIVITY_CHECK = 3;
 const STORYTELLING = 4;
 
 var firebase = require("firebase-admin");
-var serviceAccount = require("./togotest-227be-c6def00de4ba.json");
+var serviceAccount = require("../togotest-227be-c6def00de4ba.json");
 var session_test = "";
 
 var app = firebase.initializeApp({
