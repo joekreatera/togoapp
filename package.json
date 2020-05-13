@@ -9,7 +9,8 @@
     "aws-sdk": "^2.668.0",
     "firebase-admin": "^8.11.0",
     "speaker": "^0.5.1",
-    "stream": "0.0.2"
+    "stream": "0.0.2",
+    "node-fadecandy":"^2.0.0",
   },
   "devDependencies": {},
   "scripts": {
