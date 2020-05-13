@@ -36,6 +36,7 @@ This will also handle respawning your application in the event that it crashes. 
 const AWS = require('aws-sdk');
 const Stream = require('stream');
 const Speaker = require('speaker');
+const LEDControl = require('./neopixel.js');
 const fs = require('fs');
 
 const GENERAL_QUERY = 0;
@@ -345,4 +346,15 @@ function togoSpeak(message){
 
 }
 
+/* enable when ready to deploy lights
+// this should change as it does not reflect the internal state. Just with setMode or setLoopMode the variables should be set. idea?: make the static vars, instance vars.
+var ledInstance = LEDControl.getInstance();
+//LEDControl.setMode(LEDControl.BREATH_MODE);
+LEDControl.setLoopMode(LEDControl.PING_PONG);
+LEDControl.setMode(LEDControl.FREESTYLE_MODE);
+LEDControl.setColorFunction(getColor);
+LEDControl.setSyncFunction(updateSongTime);
+
+ledInstance.init();
+*/
 setTimeout( syncData , 3000);
