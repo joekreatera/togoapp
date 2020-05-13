@@ -180,8 +180,17 @@ function doGeneralQuery(cb){
                       console.log("doc " +  doc.data().content.message );
                       console.log("doc " +  doc.id );
 
-                      if( doc.data().content.routine == "wakeuptime_week"){
-                        GeneralVariables.update("wakeuptime_week", doc.data().content.message);
+                      if( doc.data().type == 7){
+                        if( doc.data().content.routine == "start_activity"){
+                          if( state == GENERAL_QUERY) // if there were two start_activity
+                             state = BEDTIME_ROUTINE_GET;
+                        }
+                      }
+
+                      if( doc.data().type == 1){
+                        if( doc.data().content.routine == "wakeuptime_week"){
+                          GeneralVariables.update("wakeuptime_week", doc.data().content.message);
+                        }
                       }
                       db.collection('robot_events').doc(doc.id).update("status",1).catch((err)=>{
                         console.log("Could not update! "  + err);
@@ -202,6 +211,34 @@ function doGeneralQuery(cb){
 
 
 
+
+function doBedtimeRoutine(callback){
+  // check any of the alarms
+  console.log("ENTERED ON BEDTIME ROUTINE GET");
+
+
+
+        let query = db.collection('routines').where('robot','==',myRobot).where('routine_name', '==' , 'bedtime');
+
+        state = GENERAL_QUERY;
+        query.get().then((querySnapshot)=>{
+          console.log("ENTERED ON QUERY RETURN ");
+            let docs = querySnapshot.docs;
+
+            togoSpeak("Going to bed now!");
+
+            for(let doc of docs){
+
+              let steps = doc.data().steps;
+
+              actualRoutineList = steps;
+              state = ACTIVITY_CHECK;
+            }
+
+            callback();
+        });
+
+}
 
 
 function doMorningRoutine(callback){
