@@ -10,7 +10,7 @@
     "firebase-admin": "^8.11.0",
     "speaker": "^0.5.1",
     "stream": "0.0.2",
-    "node-fadecandy":"^2.0.0",
+    "node-fadecandy":"^2.0.0"
   },
   "devDependencies": {},
   "scripts": {
