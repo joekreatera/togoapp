@@ -191,16 +191,18 @@ function doGeneralQuery(cb){
                         if( doc.data().content.routine == "wakeuptime_week"){
                           GeneralVariables.update("wakeuptime_week", doc.data().content.message);
                         }
+
+                        if( doc != null ){ // should check if the update is from  wake up
+                          togoSpeak('I have set up wake up time to ' + doc.data().content.message);
+
+                        }
                       }
                       db.collection('robot_events').doc(doc.id).update("status",1).catch((err)=>{
                         console.log("Could not update! "  + err);
                       });
                   }
 
-                  if( doc != null ){ // should check if the update is from  wake up
-                    togoSpeak('I have set up wake up time to ' + doc.data().content.message);
 
-                  }
                   // finished process
                   cb();
 
@@ -345,6 +347,13 @@ function syncData(){
     setTimeout( syncData , 4000);
     } );
   }
+
+  if( state == BEDTIME_ROUTINE_GET){
+  doBedtimeRoutine( () => {
+    setTimeout( syncData , 4000);
+    } );
+  }
+
 
   if( state == ACTIVITY_CHECK ){
       // ask database for any robot event status 0, type = 6
