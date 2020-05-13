@@ -181,7 +181,7 @@ function doGeneralQuery(cb){
                       console.log("doc " +  doc.id );
 
                       if( doc.data().type == 7){
-                        if( doc.data().content.routine == "start_activity"){
+                        if( doc.data().content.routine == "START_ACTIVITY"){
                           if( state == GENERAL_QUERY) // if there were two start_activity
                              state = BEDTIME_ROUTINE_GET;
                         }
