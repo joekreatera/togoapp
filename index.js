@@ -404,7 +404,7 @@ function doMorningRoutine(callback){
             var content = fs.readFileSync('../credentials_google_calendar.json');
             authorize(JSON.parse(content), (auth)=>{
                 listTodayEvents(auth,(eventList)=>{
-                  for(var i =0; i < eventList ; i++){
+                  for(var i =0; i < eventList.length ; i++){
                     var e = eventList[i];
                     console.log("Speaking " + e);
                     togoSpeak("Remember today is : " + e);
