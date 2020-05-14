@@ -296,7 +296,7 @@ function doGeneralQuery(cb){
 
                           var content = fs.readFileSync('../credentials_google_calendar.json');
                           authorize(JSON.parse(content), (auth)=>{
-                              insertEvent(auth, details[0], (new Date(details[1])),toISOString() );
+                              insertEvent(auth, details[0], (new Date(details[1])).toISOString() );
                           });
 
 
