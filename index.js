@@ -145,6 +145,7 @@ function insertEvent(name, date){
     },
   };
 
+  const calendar = google.calendar({version: 'v3', auth});
   calendar.events.insert({
     auth: auth,
     calendarId: 'togo_app',
