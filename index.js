@@ -144,7 +144,7 @@ function insertEvent(auth, name, date){
   const calendar = google.calendar({version: 'v3', auth});
   calendar.events.insert({
     auth: auth,
-    calendarId: 'togo_app',
+    calendarId: 'primary',
     resource: event,
   }, function(err, event) {
     if (err) {
