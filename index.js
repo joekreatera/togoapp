@@ -378,7 +378,7 @@ function doBedtimeRoutine(callback){
 }
 
 
-function doMorningRoutine(callback){
+async function doMorningRoutine(callback){
   // check any of the alarms
   console.log("ENTERED ON MORNING ROUTINE GET");
 
@@ -408,8 +408,7 @@ function doMorningRoutine(callback){
                     var e = eventList[i];
                     console.log("Speaking " + e);
                     togoSpeak("Remember today is : " + e);
-                    var waitTill = new Date(new Date().getTime() + 3000);
-                    while(waitTill > new Date()){}
+                    await new Promise(resolve => setTimeout(resolve, 5000));
                   }
                   callback();
                 });
