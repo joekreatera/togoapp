@@ -124,11 +124,11 @@ function insertEvent(auth, name, date){
     'description': name,
     'start': {
       'dateTime': ""+date,
-      'timeZone': 'America/Mexico',
+      'timeZone': 'America/Mexico_City',
     },
     'end': {
       'dateTime': date,
-      'timeZone': 'America/Mexico',
+      'timeZone': 'America/Mexico_City',
     },
     'recurrence': [
     ],
