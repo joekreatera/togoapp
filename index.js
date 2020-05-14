@@ -55,7 +55,7 @@ var session_test = "";
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const TOKEN_PATH = 'token.json';
-fs.readFile('../credentials.json', (err, content) => {
+fs.readFile('../credentials_google_calendar.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
   // Authorize a client with credentials, then call the Google Calendar API.
   authorize(JSON.parse(content), listEvents);
