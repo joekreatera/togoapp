@@ -391,7 +391,7 @@ function doMorningRoutine(callback){
 
             var content = fs.readFileSync('../credentials_google_calendar.json');
             authorize(JSON.parse(content), (auth)=>{
-                insertEvent(auth,(eventList)=>{
+                listTodayEvents(auth,(eventList)=>{
                   for(var i =0; i < eventList ; i++){
                     var e = eventList[i];
                     togoSpeak("Remember today is : " + e);
