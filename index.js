@@ -55,11 +55,7 @@ var session_test = "";
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const TOKEN_PATH = 'token.json';
-fs.readFile('../credentials_google_calendar.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-  // Authorize a client with credentials, then call the Google Calendar API.
-  authorize(JSON.parse(content), listEvents);
-});
+
 function authorize(credentials, callback) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
@@ -120,7 +116,7 @@ function listEvents(auth) {
   });
 }
 
-function insertEvent(name, date){
+function insertEvent(auth, name, date){
 
   var event = {
     'summary': name,
@@ -297,7 +293,13 @@ function doGeneralQuery(cb){
                         if( doc.data().content.routine == "CALENDAR_DATE"){
                           // upload to google calendar
                           var details = doc.data().content.message.split("::");
-                          insertEvent(details[0],details[1]);
+
+                          var content = fs.readFileSync('../credentials_google_calendar.json';
+                          authorize(JSON.parse(content), (auth)=>{
+                              insertEvent(auth, details[0],details[1]);
+                          });
+
+
                         }
                       }
 
