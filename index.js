@@ -115,10 +115,8 @@ function listTodayEvents(auth, callback) {
     if (err) return console.log('The API returned an error: ' + err);
     const events = res.data.items;
     if (events.length) {
-      console.log('Upcoming  events:');
       var finalEvents = [];
       for(var i = 0 ; i < events.length;i++){
-        console.log( events[i].summary );
         finalEvents.push(events[i].summary)
       }
       callback(finalEvents);
@@ -406,7 +404,6 @@ function doMorningRoutine(callback){
                 listTodayEvents(auth,async (eventList)=>{
                   for(var i =0; i < eventList.length ; i++){
                     var e = eventList[i];
-                    console.log("Speaking " + e);
                     togoSpeak("Remember today is : " + e);
                     await new Promise(resolve => setTimeout(resolve, 5000));
                   }
