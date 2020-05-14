@@ -294,7 +294,7 @@ function doGeneralQuery(cb){
                           // upload to google calendar
                           var details = doc.data().content.message.split("::");
 
-                          var content = fs.readFileSync('../credentials_google_calendar.json';
+                          var content = fs.readFileSync('../credentials_google_calendar.json');
                           authorize(JSON.parse(content), (auth)=>{
                               insertEvent(auth, details[0],details[1]);
                           });
