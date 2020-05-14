@@ -93,11 +93,21 @@ function getAccessToken(oAuth2Client, callback) {
   });
 }
 
-function listTodayEvents(auth) {
+function listTodayEvents(auth, callback) {
   const calendar = google.calendar({version: 'v3', auth});
+
+  var now0 = (new Date());
+  now0.setHours(0);
+
+  var now1 = (new Date());
+  now1.setHours(0);
+
+  now1.setDate(now1.getDate() + 1);
+
   calendar.events.list({
     calendarId: 'primary',
-    timeMin: (new Date()).toISOString(),
+    timeMin: now0,
+    timeMax: now1,
     maxResults: 10,
     singleEvents: true,
     orderBy: 'startTime',
@@ -105,11 +115,12 @@ function listTodayEvents(auth) {
     if (err) return console.log('The API returned an error: ' + err);
     const events = res.data.items;
     if (events.length) {
-      console.log('Upcoming 10 events:');
-      events.map((event, i) => {
-        const start = event.start.dateTime || event.start.date;
-        console.log(`${start} - ${event.summary}`);
-      });
+      console.log('Upcoming  events:');
+      var finalEvents = [];
+      for(var i = 0 ; i < events.length;i++){
+        finalEvents.push(events[i].summary)
+      }
+      callback(finalEvents);
     } else {
       console.log('No upcoming events found.');
     }
