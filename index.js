@@ -118,6 +118,7 @@ function listTodayEvents(auth, callback) {
       console.log('Upcoming  events:');
       var finalEvents = [];
       for(var i = 0 ; i < events.length;i++){
+        console.log( events[i].summary );
         finalEvents.push(events[i].summary)
       }
       callback(finalEvents);
@@ -405,6 +406,7 @@ function doMorningRoutine(callback){
                 listTodayEvents(auth,(eventList)=>{
                   for(var i =0; i < eventList ; i++){
                     var e = eventList[i];
+                    console.log("Speaking " + e);
                     togoSpeak("Remember today is : " + e);
                     var waitTill = new Date(new Date().getTime() + 3000);
                     while(waitTill > new Date()){}
@@ -413,7 +415,6 @@ function doMorningRoutine(callback){
                 });
             });
 
-            callback();
         });
 
 }
