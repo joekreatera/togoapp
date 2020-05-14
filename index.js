@@ -93,7 +93,7 @@ function getAccessToken(oAuth2Client, callback) {
   });
 }
 
-function listEvents(auth) {
+function listTodayEvents(auth) {
   const calendar = google.calendar({version: 'v3', auth});
   calendar.events.list({
     calendarId: 'primary',
@@ -304,6 +304,7 @@ function doGeneralQuery(cb){
                       }
 
 
+
                       if( doc.data().type == 7){
                         if( doc.data().content.routine == "START_ACTIVITY"){
                           if( state == GENERAL_QUERY) // if there were two start_activity
@@ -360,8 +361,6 @@ function doBedtimeRoutine(callback){
               actualRoutineList = steps;
               state = ACTIVITY_CHECK;
             }
-
-            callback();
         });
 
 }
@@ -387,6 +386,21 @@ function doMorningRoutine(callback){
               actualRoutineList = steps;
               state = ACTIVITY_CHECK;
             }
+
+            // rememeber all the things to do Today
+
+            var content = fs.readFileSync('../credentials_google_calendar.json');
+            authorize(JSON.parse(content), (auth)=>{
+                insertEvent(auth,(eventList)=>{
+                  for(var i =0; i < eventList ; i++){
+                    var e = eventList[i];
+                    togoSpeak("Remember today is : " + e);
+                    var waitTill = new Date(new Date().getTime() + 3000);
+                    while(waitTill > new Date()){}
+                  }
+                  callback();
+                });
+            });
 
             callback();
         });
