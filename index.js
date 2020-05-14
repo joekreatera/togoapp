@@ -38,6 +38,8 @@ const Stream = require('stream');
 const Speaker = require('speaker');
 const LEDControl = require('./neopixel.js');
 const fs = require('fs');
+const readline = require('readline');
+const {google} = require('googleapis');
 
 const GENERAL_QUERY = 0;
 const MORNING_ROUTINE_GET = 1;
@@ -48,6 +50,116 @@ const STORYTELLING = 4;
 var firebase = require("firebase-admin");
 var serviceAccount = require("../togotest-227be-c6def00de4ba.json");
 var session_test = "";
+
+/* GOOGLE CALENDAR SET UP*/
+
+const SCOPES = ['https://www.googleapis.com/auth/calendar'];
+const TOKEN_PATH = 'token.json';
+fs.readFile('../credentials.json', (err, content) => {
+  if (err) return console.log('Error loading client secret file:', err);
+  // Authorize a client with credentials, then call the Google Calendar API.
+  authorize(JSON.parse(content), listEvents);
+});
+function authorize(credentials, callback) {
+  const {client_secret, client_id, redirect_uris} = credentials.installed;
+  const oAuth2Client = new google.auth.OAuth2(
+      client_id, client_secret, redirect_uris[0]);
+
+  // Check if we have previously stored a token.
+  fs.readFile(TOKEN_PATH, (err, token) => {
+    if (err) return getAccessToken(oAuth2Client, callback);
+    oAuth2Client.setCredentials(JSON.parse(token));
+    callback(oAuth2Client);
+  });
+}
+function getAccessToken(oAuth2Client, callback) {
+  const authUrl = oAuth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: SCOPES,
+  });
+  console.log('Authorize this app by visiting this url:', authUrl);
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  rl.question('Enter the code from that page here: ', (code) => {
+    rl.close();
+    oAuth2Client.getToken(code, (err, token) => {
+      if (err) return console.error('Error retrieving access token', err);
+      oAuth2Client.setCredentials(token);
+      // Store the token to disk for later program executions
+      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+        if (err) return console.error(err);
+        console.log('Token stored to', TOKEN_PATH);
+      });
+      callback(oAuth2Client);
+    });
+  });
+}
+
+function listEvents(auth) {
+  const calendar = google.calendar({version: 'v3', auth});
+  calendar.events.list({
+    calendarId: 'primary',
+    timeMin: (new Date()).toISOString(),
+    maxResults: 10,
+    singleEvents: true,
+    orderBy: 'startTime',
+  }, (err, res) => {
+    if (err) return console.log('The API returned an error: ' + err);
+    const events = res.data.items;
+    if (events.length) {
+      console.log('Upcoming 10 events:');
+      events.map((event, i) => {
+        const start = event.start.dateTime || event.start.date;
+        console.log(`${start} - ${event.summary}`);
+      });
+    } else {
+      console.log('No upcoming events found.');
+    }
+  });
+}
+
+function insertEvent(name, date){
+
+  var event = {
+    'summary': name,
+    'location': 'Home',
+    'description': name,
+    'start': {
+      'dateTime': ""+date,
+      'timeZone': 'America/Mexico',
+    },
+    'end': {
+      'dateTime': date,
+      'timeZone': 'America/Mexico',
+    },
+    'recurrence': [
+    ],
+    'attendees': [
+    ],
+    'reminders': {
+      'useDefault': false,
+      'overrides': [
+      ],
+    },
+  };
+
+  calendar.events.insert({
+    auth: auth,
+    calendarId: 'togo_app',
+    resource: event,
+  }, function(err, event) {
+    if (err) {
+      console.log('There was an error contacting the Calendar service: ' + err);
+      return;
+    }
+    console.log('Event created: %s', event.htmlLink);
+  });
+
+}
+
+/* END CALENDAR SET UP*/
 
 var app = firebase.initializeApp({
     credential: firebase.credential.cert(serviceAccount),
@@ -179,6 +291,15 @@ function doGeneralQuery(cb){
                       // classify the documents! we should not have more than one document at a time
                       console.log("doc " +  doc.data().content.message );
                       console.log("doc " +  doc.id );
+
+                      if( doc.data().type == 2){
+                        if( doc.data().content.routine == "CALENDAR_DATE"){
+                          // upload to google calendar
+                          var details = doc.data().content.message.split("::");
+                          insertEvent(details[0],details[1]);
+                        }
+                      }
+
 
                       if( doc.data().type == 7){
                         if( doc.data().content.routine == "START_ACTIVITY"){
