@@ -378,7 +378,7 @@ function doBedtimeRoutine(callback){
 }
 
 
-async function doMorningRoutine(callback){
+function doMorningRoutine(callback){
   // check any of the alarms
   console.log("ENTERED ON MORNING ROUTINE GET");
 
@@ -403,7 +403,7 @@ async function doMorningRoutine(callback){
 
             var content = fs.readFileSync('../credentials_google_calendar.json');
             authorize(JSON.parse(content), (auth)=>{
-                listTodayEvents(auth,(eventList)=>{
+                listTodayEvents(auth,async (eventList)=>{
                   for(var i =0; i < eventList.length ; i++){
                     var e = eventList[i];
                     console.log("Speaking " + e);
