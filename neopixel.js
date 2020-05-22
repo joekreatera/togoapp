@@ -77,7 +77,7 @@ class FCController{
     FCController.FORWARD = 0;
     FCController.PING_PONG = 1;
 
-    this.totalLedCount = ledCount;
+    FCController.totalLedCount = ledCount;
     this.fc = new FadeCandy();
     FCController.instance = this;
   }
@@ -100,13 +100,13 @@ class FCController{
     });
 
     this.fc.on(FadeCandy.events.COLOR_LUT_READY, function () {
-        console.log('FaceCandy says color lut ready on' +  this.totalLedCount+' leds');
+        console.log('FaceCandy says color lut ready on' + FCController.totalLedCount +' leds');
 
     	// do some reeeeally basic running light on 6 leds
         let frame = 1
         let frameTotals = 25;
         let dir = true;
-        var totalLedCount = this.totalLedCount;
+        var totalLedCount = FCController.totalLedCount;
 
 
         setInterval(function () {
