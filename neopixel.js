@@ -51,6 +51,10 @@ class FCController{
     FCController.color2 = FCController.buildColor(r,g,b);
   }
 
+  static setLedCount(leds){
+      FCController.totalLedCount = leds;
+  }
+
   static getInstance(){
     if( FCController.instance == null ){
       FCController.instance = new FCController();
@@ -58,7 +62,7 @@ class FCController{
     return FCController.instance;
   }
 
-  constructor(ledCount){
+  constructor(){
     FCController.instance = null;
     FCController.color1 = new PixelColor(255,0,255);
     FCController.color2 = new PixelColor(0,255,0);
@@ -77,7 +81,7 @@ class FCController{
     FCController.FORWARD = 0;
     FCController.PING_PONG = 1;
 
-    FCController.totalLedCount = ledCount;
+    FCController.totalLedCount = 1;
     this.fc = new FadeCandy();
     FCController.instance = this;
   }

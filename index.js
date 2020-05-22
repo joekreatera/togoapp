@@ -543,8 +543,9 @@ function getColor(){
 }
 //* enable when ready to deploy lights
 // this should change as it does not reflect the internal state. Just with setMode or setLoopMode the variables should be set. idea?: make the static vars, instance vars.
-var ledInstance = LEDControl.getInstance(16);
+var ledInstance = LEDControl.getInstance();
 //LEDControl.setMode(LEDControl.BREATH_MODE);
+LEDControl.setLedCount(16);
 LEDControl.setLoopMode(LEDControl.PING_PONG);
 LEDControl.setMode(LEDControl.FREESTYLE_MODE);
 LEDControl.setColorFunction(getColor);
