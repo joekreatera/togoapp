@@ -579,6 +579,8 @@ var configData ={
 // this should change as it does not reflect the internal state. Just with setMode or setLoopMode the variables should be set. idea?: make the static vars, instance vars.
 LEDControl.initInstance();
 LEDControl.configureStrips(configData);
+LEDControl.setFrameTotals(15,1);
+LEDControl.setFrameTotals(8,2);
 LEDControl.start();
 
 setTimeout( syncData , 3000);

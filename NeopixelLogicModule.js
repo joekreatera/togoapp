@@ -177,22 +177,22 @@ class NeopixelLogicModule{
 
     for( var pixel = firstIndex ; pixel < firstIndex + totalLedCount ; pixel++){
       let i = 3 * (pixel)
-      data[i] = 0
-      data[i + 1] = 0
-      data[i + 2] = 0
+      data[i] = eyeColor.red
+      data[i + 1] = eyeColor.green
+      data[i + 2] = eyeColor.blue
     }
 
     for(var pixel  = Math.floor(startTop - step) ; pixel < Math.ceil(startTop+step) ; pixel++){
       let i = 3 * (pixel+firstIndex)
-      data[i] = eyeColor.red
-      data[i + 1] = eyeColor.green
-      data[i + 2] = eyeColor.blue
+      data[i] = 0
+      data[i + 1] = 0
+      data[i + 2] = 0
     }
     for(var pixel  = Math.floor(startBottom - step) ; pixel < Math.ceil(startBottom+step) ; pixel++){
       let i = 3 * (pixel+firstIndex)
-      data[i] = eyeColor.red
-      data[i + 1] = eyeColor.green
-      data[i + 2] = eyeColor.blue
+      data[i] = 0
+      data[i + 1] = 0
+      data[i + 2] = 0
     }
 
   }
