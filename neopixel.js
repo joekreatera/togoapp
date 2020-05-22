@@ -110,7 +110,7 @@ class FCController{
 
 
         setInterval(function () {
-          if( FCController.syncFunction() != null )
+          if( FCController.syncFunction != null )
             FCController.syncFunction();
           let data = new Uint8Array(totalLedCount * 3);
 
