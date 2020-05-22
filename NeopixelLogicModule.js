@@ -177,7 +177,8 @@ class NeopixelLogicModule{
             break;
         case FCController.FREESTYLE_MODE:
             this.setFreeColor(this.colorFunction(), data, this.firstIndex, this.totalLedCount);
-            break:
+            break;
+
     }
 
     if( this.direction ){
