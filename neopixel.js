@@ -213,7 +213,7 @@ class FCController{
           }
 
 
-          if(from < 0 ){
+          if(from < 0 && pixel > to){
                   var from_aux = from+totalLedCount;
 
                   if( pixel > from_aux){
@@ -222,7 +222,7 @@ class FCController{
                     data[i + 1] = FCController.getInstance().calculateGradient(colorToMove.green, pixel-actualPixel, pixelLength, 10 , doGradient);
                     data[i + 2] = FCController.getInstance().calculateGradient(colorToMove.blue, pixel-actualPixel , pixelLength, 10 , doGradient);
                   }
-          }else if(to >= totalLedCount ){
+          }else if(to >= totalLedCount && pixel < from ){
                 var to_aux = to%totalLedCount;
 
                 if( pixel < to_aux){
