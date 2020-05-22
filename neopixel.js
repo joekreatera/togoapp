@@ -58,7 +58,7 @@ class FCController{
     return FCController.instance;
   }
 
-  constructor(){
+  constructor(ledCount){
     FCController.instance = null;
     FCController.color1 = new PixelColor(255,0,255);
     FCController.color2 = new PixelColor(0,255,0);
@@ -77,7 +77,7 @@ class FCController{
     FCController.FORWARD = 0;
     FCController.PING_PONG = 1;
 
-
+    this.totalLedCount = ledCount;
     this.fc = new FadeCandy();
     FCController.instance = this;
   }
@@ -106,7 +106,7 @@ class FCController{
         let frame = 1
         let frameTotals = 25;
         let dir = true;
-        var totalLedCount = 15;
+        var totalLedCount = this.totalLedCount;
 
 
         setInterval(function () {
