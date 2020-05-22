@@ -38,6 +38,7 @@ const Stream = require('stream');
 const Speaker = require('speaker');
 const LEDControl = require('./Neopixel.js');
 const PixelColor = require('./PixelColor');
+const NeopixelConstants = require('./NeopixelConstants.js');
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
