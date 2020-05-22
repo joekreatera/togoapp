@@ -207,7 +207,7 @@ class NeopixelLogicModule{
             this.setFreeColor(this.colorFunction(), data, this.firstIndex, this.totalLedCount);
             break;
         case NeopixelConstants.EYE_BLINK_MODE:
-            this.setFreeColor(this.mainColor, this.frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
+            this.eyeBlink(this.mainColor, this.frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
             break;
 
     }
