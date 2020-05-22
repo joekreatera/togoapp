@@ -211,9 +211,9 @@ class FCController{
           }
           if( pixel >= actualPixel-Math.floor(pixelLength/2) && pixel <= actualPixel+Math.floor(pixelLength/2)  ){
             let i = 3 * pixel
-            data[i] = calculateGradient(colorToMove.red, pixel-actualPixel, pixelLength, 10 , doGradient);
-            data[i + 1] = calculateGradient(colorToMove.green, pixel-actualPixel, pixelLength, 10 , doGradient);
-            data[i + 2] = calculateGradient(colorToMove.blue, pixel-actualPixel , pixelLength, 10 , doGradient);
+            data[i] = FCController.getInstance().calculateGradient(colorToMove.red, pixel-actualPixel, pixelLength, 10 , doGradient);
+            data[i + 1] = FCController.getInstance().calculateGradient(colorToMove.green, pixel-actualPixel, pixelLength, 10 , doGradient);
+            data[i + 2] = FCController.getInstance().calculateGradient(colorToMove.blue, pixel-actualPixel , pixelLength, 10 , doGradient);
           }
     }
     FCController.getInstance().fc.send(data)
