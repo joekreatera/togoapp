@@ -117,7 +117,7 @@ class FCController{
           if( FCController.syncFunction != null )
             FCController.syncFunction();
           let data = new Uint8Array(totalLedCount * 3);
-
+          console.log("Frame " + frame);
           if(FCController.mode == FCController.BREATH_MODE)
             FCController.getInstance().breatheBetweenTwoColors(FCController.color1, FCController.color2, frame, frameTotals, data, totalLedCount);
           if(FCController.mode == FCController.CHASE_MODE)
