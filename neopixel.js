@@ -20,6 +20,10 @@ class FCController{
     FCController.chaseWidth = nm;
   }
 
+  static setFrameTotals(ft){
+    FCController.frameTotals = ft;
+  }
+
   static buildColor(r,g,b){
     return new PixelColor(r,g,b);
   }
@@ -78,6 +82,7 @@ class FCController{
     FCController.CHASE_BREATH_MODE = 2;
     FCController.FREESTYLE_MODE = 3;
 
+    FCController.frameTotals = 25;
     FCController.FORWARD = 0;
     FCController.PING_PONG = 1;
 
@@ -108,7 +113,7 @@ class FCController{
 
     	// do some reeeeally basic running light on 6 leds
         let frame = 1
-        let frameTotals = 25;
+        let frameTotals = FCController.frameTotals;
         let dir = true;
         var totalLedCount = FCController.totalLedCount;
 
