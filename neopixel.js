@@ -106,7 +106,7 @@ class FCController{
         let frame = 1
         let frameTotals = 25;
         let dir = true;
-        var totalLedCount = 30;
+        var totalLedCount = 15;
 
 
         setInterval(function () {
