@@ -168,9 +168,12 @@ class NeopixelLogicModule{
     var pct =(frame*1.0/totalFrames);
     var step = pct/.2; // -> .2 is a constant required and taken out from the amount of steps needed.
 
+
     //divide the space based on index 0
-    var startTop = (totalLedCount/2)/2-0.5; // with 16 leeds this should be the middle between 3 and 4 led
-    var startBottom = (totalLedCount/2 + totalLedCount)/2-0.5; // with 16 leeds this should be the middle between 3 and 4 led
+    var startTop = (totalLedCount*1.0/2)/2-0.5; // with 16 leeds this should be the middle between 3 and 4 led
+    var startBottom = (totalLedCount*1.0/2 + totalLedCount*1.0)/2-0.5; // with 16 leeds this should be the middle between 3 and 4 led
+
+    console.log(step + " // " + pct +  "     " +startTop + "   " + startBottom);
 
     for(var pixel  = Math.floor(startTop - step) ; pixel < Math.ceil(startTop+step) ; pixel++){
       let i = 3 * (pixel+firstIndex)
