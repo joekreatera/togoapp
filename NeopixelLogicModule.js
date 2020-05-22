@@ -24,10 +24,14 @@ class NeopixelLogicModule{
 
   setMode(m){
     this.mode = m;
+    this.frame = 0;
+    this.direction = true;
   }
 
   setLoopMode(lm){
     this.loopMode = lm;
+    this.frame = 0;
+    this.direction = true;
   }
 
   setChaseWidth(cw){
@@ -160,7 +164,28 @@ class NeopixelLogicModule{
   // special for circular strips to appear as an eye blinking.
   //For this is especially important to setup correctly the indexes according to 'eye' rotation in final harware setup
   // TODO: needs some math!!!
-  eyeBlink(){}
+  eyeBlink(eyeColor,frame, totalFrames, data, firstIndex, totalLedCount){
+    var pct =(frame*1.0/totalFrames);
+    var step = pct/.2; // -> .2 is a constant required and taken out from the amount of steps needed.
+
+    //divide the space based on index 0
+    var startTop = (totalLedCount/2)/2-0.5; // with 16 leeds this should be the middle between 3 and 4 led
+    var startBottom = (totalLedCount/2 + totalLedCount)/2-0.5; // with 16 leeds this should be the middle between 3 and 4 led
+
+    for(var pixel  = Math.floor(startTop - step) ; pixel < Math.ceil(startTop+step) ; pixel++){
+      let i = 3 * (pixel+firstIndex)
+      data[i] = eyeColor.red
+      data[i + 1] = eyeColor.green
+      data[i + 2] = eyeColor.blue
+    }
+    for(var pixel  = Math.floor(startBottom - step) ; pixel < Math.ceil(startBottom+step) ; pixel++){
+      let i = 3 * (pixel+firstIndex)
+      data[i] = eyeColor.red
+      data[i + 1] = eyeColor.green
+      data[i + 2] = eyeColor.blue
+    }
+
+  }
 
   update(data){
 
@@ -177,6 +202,9 @@ class NeopixelLogicModule{
             break;
         case NeopixelConstants.FREESTYLE_MODE:
             this.setFreeColor(this.colorFunction(), data, this.firstIndex, this.totalLedCount);
+            break;
+        case NeopixelConstants.EYE_BLINK_MODE:
+            this.setFreeColor(this.mainColor, this.frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
             break;
 
     }

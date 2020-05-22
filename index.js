@@ -548,29 +548,29 @@ var configData ={
     ledsPerStrip:16,
     strips:[
       {
-        mode:NeopixelConstants.BREATH_MODE,
-        loopMode:NeopixelConstants.FORWARD,
+        mode:NeopixelConstants.CHASE_BREATH_MODE,
+        loopMode:NeopixelConstants.PING_PONG,
+        mainColor:PixelColor.PURPLE,
+        secondaryColor:PixelColor.ORANGE,
+        leds:16,
+        chaseWidth:4
+     },
+      {
+        mode:NeopixelConstants.EYE_BLINK_MODE,
+        loopMode:NeopixelConstants.PING_PONG,
         mainColor:PixelColor.RED,
         secondaryColor:PixelColor.BLUE,
         leds:16,
         chaseWidth:3
      },
      {
-       mode:NeopixelConstants.CHASE_MODE,
-       loopMode:NeopixelConstants.FORWARD,
+       mode:NeopixelConstants.EYE_BLINK_MODE,
+       loopMode:NeopixelConstants.PING_PONG,
        mainColor:PixelColor.RED,
        secondaryColor:PixelColor.BLUE,
        leds:16,
        chaseWidth:3
     },
-    {
-      mode:NeopixelConstants.CHASE_MODE,
-      loopMode:NeopixelConstants.PING_PONG,
-      mainColor:PixelColor.RED,
-      secondaryColor:PixelColor.BLUE,
-      leds:16,
-      chaseWidth:3
-   },
 
     ]
 };
