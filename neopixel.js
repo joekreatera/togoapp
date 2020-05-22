@@ -2,6 +2,9 @@ const FadeCandy = require('node-fadecandy')
 const PixelColor = require('./PixelColor.js')
 const NeopixelLogicModule = require('./NeopixelLogicModule.js');
 const NeopixelConstants = require('./NeopixelConstants.js');
+
+
+
 class FCController{
 
 
