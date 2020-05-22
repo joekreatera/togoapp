@@ -1,0 +1,13 @@
+class NeopixelConstants{
+
+
+}
+
+NeopixelConstants.BREATH_MODE = 0;
+NeopixelConstants.CHASE_MODE = 1;
+NeopixelConstants.CHASE_BREATH_MODE = 2;
+NeopixelConstants.FREESTYLE_MODE = 3;
+NeopixelConstants.FORWARD = 0;
+NeopixelConstants.PING_PONG = 1;
+
+module.exports = NeopixelConstants;

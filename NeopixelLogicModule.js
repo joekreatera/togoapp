@@ -1,5 +1,5 @@
 const PixelColor = require('./PixelColor.js')
-
+const NeopixelConstants = require('./NeopixelConstants.js');
 
 /*
 
@@ -165,17 +165,17 @@ class NeopixelLogicModule{
   update(data){
 
     switch(this.mode){
-        case FCController.BREATH_MODE:
+        case NeopixelConstants.BREATH_MODE:
             this.breathe(this.mainColor, this.secondaryColor, frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
              break;
-        case FCController.CHASE_MODE:
+        case NeopixelConstants.CHASE_MODE:
             this.chase(this.mainColor , this.chaseWidth ,true, frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
             break;
-        case FCController.CHASE_BREATH_MODE:
+        case NeopixelConstants.CHASE_BREATH_MODE:
             this.breathe(this.mainColor, this.secondaryColor, frame, this.frameTotals, data, this.firstIndex ,this.totalLedCount);
             this.chase(this.mainColor , this.chaseWidth ,false, frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
             break;
-        case FCController.FREESTYLE_MODE:
+        case NeopixelConstants.FREESTYLE_MODE:
             this.setFreeColor(this.colorFunction(), data, this.firstIndex, this.totalLedCount);
             break;
 
@@ -189,10 +189,10 @@ class NeopixelLogicModule{
 
 
     if( this.frame == this.frameTotals || this.frame == 0){
-      if( this.loopMode == FCController.FORWARD ){
+      if( this.loopMode == NeopixelConstants.FORWARD ){
         this.frame = 0;
       }
-      if( this.loopMode == FCController.PING_PONG){
+      if( this.loopMode == NeopixelConstants.PING_PONG){
         this.direction = !this.direction;
       }
     }

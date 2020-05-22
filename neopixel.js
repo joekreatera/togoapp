@@ -1,7 +1,7 @@
 const FadeCandy = require('node-fadecandy')
 const PixelColor = require('./PixelColor.js')
 const NeopixelLogicModule = require('./NeopixelLogicModule.js');
-
+const NeopixelConstants = require('./NeopixelConstants.js');
 class FCController{
 
 
@@ -74,12 +74,7 @@ class FCController{
     FCController.instance = null;
 
     FCController.syncFunction = null;
-    FCController.BREATH_MODE = 0;
-    FCController.CHASE_MODE = 1;
-    FCController.CHASE_BREATH_MODE = 2;
-    FCController.FREESTYLE_MODE = 3;
-    FCController.FORWARD = 0;
-    FCController.PING_PONG = 1;
+
 
     FCController.totalLedCount = 1;
     FCController.fc = new FadeCandy();
@@ -97,8 +92,8 @@ class FCController{
     ledsPerStrip: int,
     strips:[
       {
-      mode: FCController MODES,
-      loopMode: FCController LOOP_MODES,
+      mode: NeopixelConstants MODES,
+      loopMode: NeopixelConstants LOOP_MODES,
       mainColor: PixelColor,
       secondaryColor: PixelColor
       leds: int
