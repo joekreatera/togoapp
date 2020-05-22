@@ -546,8 +546,8 @@ function getColor(){
 var ledInstance = LEDControl.getInstance();
 //LEDControl.setMode(LEDControl.BREATH_MODE);
 
-LEDControl.setMode(LEDControl.CHASE_MODE);
-LEDControl.setChaseColor(255,0,255);
+LEDControl.setMode(LEDControl.CHASE_BREATH_MODE);
+LEDControl.setChaseColor(34,123,255);
 LEDControl.setChaseWidth(5);
 LEDControl.setLedCount(16);
 LEDControl.setFrameTotals(10);
