@@ -106,7 +106,6 @@ class FCController{
   }
 */
   static configureStrips(configData){
-
     for(var i=0; i < configData.strips.length ; i++){
       FCController.getInstance().strips.push(new NeopixelLogicModule( configData.strips[i].mainColor,
                                                         configData.strips[i].secondaryColor,

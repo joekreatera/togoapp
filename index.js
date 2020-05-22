@@ -36,7 +36,7 @@ This will also handle respawning your application in the event that it crashes. 
 const AWS = require('aws-sdk');
 const Stream = require('stream');
 const Speaker = require('speaker');
-const LEDControl = require('./Neopixel.js');
+const LEDControl = require('./neopixel.js');
 const PixelColor = require('./PixelColor');
 const NeopixelConstants = require('./NeopixelConstants.js');
 const fs = require('fs');
