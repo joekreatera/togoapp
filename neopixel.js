@@ -108,7 +108,7 @@ class FCController{
   static configureStrips(configData){
 
     for(var i=0; i < configData.strips.length ; i++){
-      this.strips.push(new NeopixelLogicModule( configData.strips[i].mainColor,
+      FCController.getInstance().strips.push(new NeopixelLogicModule( configData.strips[i].mainColor,
                                                         configData.strips[i].secondaryColor,
                                                         configData.strips[i].mode,
                                                         configData.strips[i].loopMode,
@@ -117,7 +117,7 @@ class FCController{
                                                           configData.strips[i].leds,
                                                         25 ) );
     }
-    this.data = new Uint8Array( configData.strips.length*64*3);
+    FCController.getInstance().data = new Uint8Array( configData.strips.length*64*3);
     FCController.stripsConfigured = true;
     return FCController;
   }
