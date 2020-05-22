@@ -166,8 +166,8 @@ class NeopixelLogicModule{
   // TODO: needs some math!!!
   eyeBlink(eyeColor,frame, totalFrames, data, firstIndex, totalLedCount){
     var pct =(frame*1.0/totalFrames);
-    var sinPct = Math.abs(.9-Math.sin(pct*Math.PI-.05));
-    var step = sinPct/.2; // -> .2 is a constant required and taken out from the amount of steps needed.
+    //var sinPct = Math.abs(Math.sin(pct*Math.PI));
+    var step = pct/.2; // -> .2 is a constant required and taken out from the amount of steps needed.
 
 
     //divide the space based on index 0
