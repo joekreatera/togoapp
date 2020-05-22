@@ -204,7 +204,7 @@ class FCController{
 
 
           if( resetLayer ){
-            let i = pixel;
+            let i = 3*pixel;
             data[i] = 0
             data[i + 1] = 0
             data[i + 2] = 0
