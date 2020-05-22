@@ -36,7 +36,8 @@ This will also handle respawning your application in the event that it crashes. 
 const AWS = require('aws-sdk');
 const Stream = require('stream');
 const Speaker = require('speaker');
-const LEDControl = require('./neopixel.js');
+const LEDControl = require('./Neopixel.js');
+const PixelColor = requre('./PixelColor');
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
@@ -541,22 +542,42 @@ function togoSpeak(message){
 function getColor(){
   return LEDControl.buildColor(255,255,0);
 }
+
+var configData ={
+    ledsPerStrip:16,
+    strips:[
+      {
+        mode:FCController.BREATH_MODE,
+        loopMode:FCController.FORWARD,
+        mainColor:PixelColor.RED,
+        secondaryColor:PixelColor.BLUE,
+        leds:16,
+        chaseWidth:3
+     },
+     {
+       mode:FCController.CHASE_MODE,
+       loopMode:FCController.FORWARD,
+       mainColor:PixelColor.RED,
+       secondaryColor:PixelColor.BLUE,
+       leds:16,
+       chaseWidth:3
+    },
+    {
+      mode:FCController.CHASE_MODE,
+      loopMode:FCController.PING_PONG,
+      mainColor:PixelColor.RED,
+      secondaryColor:PixelColor.BLUE,
+      leds:16,
+      chaseWidth:3
+   },
+
+    ]
+};
+
 //* enable when ready to deploy lights
 // this should change as it does not reflect the internal state. Just with setMode or setLoopMode the variables should be set. idea?: make the static vars, instance vars.
-var ledInstance = LEDControl.getInstance();
-//LEDControl.setMode(LEDControl.BREATH_MODE);
-LEDControl.setMode(LEDControl.CHASE_MODE);
-//LEDControl.setMode(LEDControl.CHASE_BREATH_MODE);
-LEDControl.setChaseColor(34,123,255);
-LEDControl.setChaseWidth(5);
-LEDControl.setLedCount(143);
-LEDControl.setFrameTotals(200);
-LEDControl.setLoopMode(LEDControl.PING_PONG);
-//LEDControl.setLoopMode(LEDControl.FORWARD);
-//LEDControl.setMode(LEDControl.FREESTYLE_MODE);
-//LEDControl.setColorFunction(getColor);
-//LEDControl.setSyncFunction(updateSongTime);
-
-ledInstance.init();
+LEDControl.initInstance();
+LEDControl.configureStrips(configData);
+LEDControl.start();
 
 setTimeout( syncData , 3000);

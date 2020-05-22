@@ -1,63 +1,59 @@
 const FadeCandy = require('node-fadecandy')
-
-
-class PixelColor{
-
-  // ints!
-  constructor(r,g,b){
-    this.red = r;
-    this.green = g;
-    this.blue = b;
-  }
-
-}
+const PixelColor = require('./PixelColor.js')
+const NeopixelLogicModule = require('./NeopixelLogicModule.js');
 
 class FCController{
 
 
-
-  static setChaseWidth(nm){
-    FCController.chaseWidth = nm;
+  static setChaseWidth(nm,idx=0){
+    var mods = FCController.getInstance().getModules();
+    if(idx < mods.length)
+      mods[idx].setChaseWidth(nm);
   }
 
-  static setFrameTotals(ft){
-    FCController.frameTotals = ft;
+  static setFrameTotals(ft,idx=0){
+    var mods = FCController.getInstance().getModules();
+    if(idx < mods.length)
+      mods[idx].setFrameTotals(ft);
   }
 
   static buildColor(r,g,b){
     return new PixelColor(r,g,b);
   }
 
-  static setLoopMode(lm){
-    FCController.loopMode = lm;
+  static setLoopMode(lm,idx=0){
+    var mods = FCController.getInstance().getModules();
+    if(idx < mods.length)
+      mods[idx].setLoopMode(lm);
   }
-  static setMode(m){
-    FCController.mode = m;
+  static setMode(m,idx=0){
+    var mods = FCController.getInstance().getModules();
+    if(idx < mods.length)
+      mods[idx].setMode(m);
   }
 
   static setSyncFunction(cb){
     FCController.syncFunction = cb ; // this one should return a color to be displayed
   }
 
-  static setColorFunction(cb){
-    FCController.colorFunction = cb ; // this one should return a color to be displayed
+  static setColorFunction(cb,idx=0){
+    var mods = FCController.getInstance().getModules();
+    if(idx < mods.length)
+      mods[idx].setColorFunction(cb);
   }
 
-  static setChaseColor(r,g,b){
-    FCController.chaseColor = FCController.buildColor(r,g,b);
+  static setMainColor(r,g,b,idx=0){
+    var mods = FCController.getInstance().getModules();
+    if(idx < mods.length)
+      mods[idx].setMainColor(new PixelColor(r,g,b) );
   }
 
-  static setColor1(r,g,b){
-    FCController.color1 = FCController.buildColor(r,g,b);
+  static setSecondaryColor(r,g,b,idx=0){
+    var mods = FCController.getInstance().getModules();
+    if(idx < mods.length)
+      mods[idx].setSecondaryColor(new PixelColor(r,g,b));
   }
 
-  static setColor2(r,g,b){
-    FCController.color2 = FCController.buildColor(r,g,b);
-  }
-
-  static setLedCount(leds){
-      FCController.totalLedCount = leds;
-  }
 
   static getInstance(){
     if( FCController.instance == null ){
@@ -66,186 +62,116 @@ class FCController{
     return FCController.instance;
   }
 
+  static initInstance(){
+    FCController.getInstance(); // just to have the object
+  }
+
+  static start(){
+    FCController.getInstance().init();
+  }
+
   constructor(){
     FCController.instance = null;
-    FCController.color1 = new PixelColor(255,0,255);
-    FCController.color2 = new PixelColor(0,255,0);
-    FCController.chaseColor = new PixelColor(255,255,255);
-    FCController.colorFunction = null;
-    FCController.mode = 0;
-    FCController.loopMode = 0;
-    FCController.chaseWidth = 6;
 
     FCController.syncFunction = null;
     FCController.BREATH_MODE = 0;
     FCController.CHASE_MODE = 1;
     FCController.CHASE_BREATH_MODE = 2;
     FCController.FREESTYLE_MODE = 3;
-
-    FCController.frameTotals = 25;
     FCController.FORWARD = 0;
     FCController.PING_PONG = 1;
 
     FCController.totalLedCount = 1;
-    this.fc = new FadeCandy();
+    FCController.fc = new FadeCandy();
     FCController.instance = this;
+    FCController.stripsConfigured = false;
+    this.strips = new Array();
+    this.data = null;
   }
 
+
+
+  /*
+  config data containing (all parameters unless specified, obligatory):
+  configData ={
+    ledsPerStrip: int,
+    strips:[
+      {
+      mode: FCController MODES,
+      loopMode: FCController LOOP_MODES,
+      mainColor: PixelColor,
+      secondaryColor: PixelColor
+      leds: int
+      chaseWidth: int (optional)
+      } x strips desired
+    ]
+  }
+*/
+  static configureStrips(configData){
+
+    for(var i=0; i < configData.strips.length ; i++){
+      this.strips.push(new NeopixelLogicModule( configData.strips[i].mainColor,
+                                                        configData.strips[i].secondaryColor,
+                                                        configData.strips[i].mode,
+                                                        configData.strips[i].loopMode,
+                                                        (configData.strips[i].chaseWidth != undefined)?configData.strips[i].chaseWidth:1,
+                                                        i*64,
+                                                          configData.strips[i].leds,
+                                                        25 ) );
+    }
+    this.data = new Uint8Array( configData.strips.length*64*3);
+    FCController.stripsConfigured = true;
+    return FCController;
+  }
+
+
+  getModules(){
+    return this.strips;
+  }
+
+  printDebugData(){
+    for( module in this.getModules() ){
+      console.log(module.getDebugData());
+    }
+  }
+
+/*
+this component should calculate frames according to timing. Is one timing for all but different frameTotals,
+so it can appear as different timings :D
+*/
 
   init(){
 
     console.log("Mode " + FCController.mode);
-
     console.log("Loop Mode " + FCController.loopMode);
 
     this.fc.on(FadeCandy.events.READY, function () {
 
         console.log('FadeCandy.events.READY')
-
         FCController.getInstance().fc.clut.create()
-
         // set fadecandy led to manual mode
         FCController.getInstance().fc.config.set(FCController.getInstance().fc.Configuration.schema.LED_MODE, 1)
     });
 
     this.fc.on(FadeCandy.events.COLOR_LUT_READY, function () {
-        console.log('FaceCandy says color lut ready on' + FCController.totalLedCount +' leds');
-
-    	// do some reeeeally basic running light on 6 leds
-        let frame = 1
-        let frameTotals = FCController.frameTotals;
-        let dir = true;
-        var totalLedCount = FCController.totalLedCount;
-
+        console.log('FaceCandy says color lut ready on ' + FCController.totalLedCount +' leds');
+        if( !FCController.stripsConfigured){
+          console.log("ERROR! : no strips configured");
+          return;
+        }else{
+          FCController.getInstance().printDebugData();
+        }
 
         setInterval(function () {
           if( FCController.syncFunction != null )
             FCController.syncFunction();
-          let data = new Uint8Array(totalLedCount * 3);
-
-          if(FCController.mode == FCController.BREATH_MODE)
-            FCController.getInstance().breatheBetweenTwoColors(FCController.color1, FCController.color2, frame, frameTotals, data, totalLedCount);
-          if(FCController.mode == FCController.CHASE_MODE)
-            FCController.getInstance().chase(FCController.chaseColor , FCController.chaseWidth ,true, frame, frameTotals, data, totalLedCount)
-          if(FCController.mode == FCController.CHASE_BREATH_MODE ){
-            FCController.getInstance().breatheBetweenTwoColors(FCController.color1, FCController.color2, frame, frameTotals, data, totalLedCount);
-            FCController.getInstance().chase(FCController.chaseColor , FCController.chaseWidth ,false, frame, frameTotals, data, totalLedCount)
+          for( module in FCController.getInstance().getModules() ){
+            module.update(data);
           }
-          if( FCController.mode == FCController.FREESTYLE_MODE ){
-            FCController.getInstance().setFreeColor( FCController.colorFunction(), data, totalLedCount );
-          }
-
-          if( dir ){
-            frame++
-          }else{
-            frame--;
-          }
-
-
-          if( frame == frameTotals || frame == 0){
-            if( FCController.loopMode == FCController.FORWARD ){
-              frame = 0;
-            }
-            if( FCController.loopMode == FCController.PING_PONG){
-              dir = !dir;
-            }
-          }
-
+          FCController.getInstance().fc.send(data)
         }, 100);
     });
 
-  }
-
-  breatheBetweenTwoColors(fromColor, toColor, frame, totalFrames, data ,totalLedCount){
-
-    var redAmount = fromColor.red + (toColor.red - fromColor.red)*(frame*1.0/totalFrames);
-    var greenAmount =fromColor.green + (toColor.green - fromColor.green)*(frame*1.0/totalFrames);
-    var blueAmount = fromColor.blue + (toColor.blue - fromColor.blue)*(frame*1.0/totalFrames);
-
-
-    for (let pixel = 0; pixel < totalLedCount; pixel ++) {
-            let i = 3 * pixel
-            data[i] = redAmount
-            data[i + 1] = greenAmount
-            data[i + 2] = blueAmount
-    }
-    FCController.getInstance().fc.send(data)
-  }
-
-  setFreeColor(color, data ,totalLedCount){
-
-    var redAmount = color.red;
-    var greenAmount = color.green;
-    var blueAmount = color.blue;
-
-
-    for (let pixel = 0; pixel < totalLedCount; pixel ++) {
-            let i = 3 * pixel
-            data[i] = redAmount
-            data[i + 1] = greenAmount
-            data[i + 2] = blueAmount
-    }
-    FCController.getInstance().fc.send(data)
-    console.log("sending data");
-  }
-
-
-  // does it by channel
-  calculateGradient(col, place, totalLength, gradientWidth, doGradient){
-      if( doGradient ){
-
-          return Math.floor(Math.max(0,Math.min(255,col - Math.abs(place)*1.0/totalLength/2*gradientWidth)));
-
-      }
-      return col;
-  }
-
-  chase(colorToMove, pixelLength, resetLayer, frame, totalFrames, data, totalLedCount , doGradient){
-
-
-    var actualPixel = Math.floor((frame*1.0/totalFrames)*totalLedCount);
-    var from = actualPixel-Math.floor(pixelLength/2);
-    var to = actualPixel+Math.floor(pixelLength/2);
-
-    for (let pixel = 0; pixel < totalLedCount; pixel ++) {
-
-
-          if( resetLayer ){
-            let i = 3*pixel;
-            data[i] = 0
-            data[i + 1] = 0
-            data[i + 2] = 0
-          }
-
-
-          if(from < 0 && pixel > to){
-                  var from_aux = from+totalLedCount;
-
-                  if( pixel > from_aux){
-                    let i = 3 * pixel
-                    data[i] = FCController.getInstance().calculateGradient(colorToMove.red, pixel-actualPixel, pixelLength, 10 , doGradient);
-                    data[i + 1] = FCController.getInstance().calculateGradient(colorToMove.green, pixel-actualPixel, pixelLength, 10 , doGradient);
-                    data[i + 2] = FCController.getInstance().calculateGradient(colorToMove.blue, pixel-actualPixel , pixelLength, 10 , doGradient);
-                  }
-          }else if(to >= totalLedCount && pixel < from ){
-                var to_aux = to%totalLedCount;
-
-                if( pixel < to_aux){
-                  let i = 3 * pixel
-                  data[i] = FCController.getInstance().calculateGradient(colorToMove.red, pixel-actualPixel, pixelLength, 10 , doGradient);
-                  data[i + 1] = FCController.getInstance().calculateGradient(colorToMove.green, pixel-actualPixel, pixelLength, 10 , doGradient);
-                  data[i + 2] = FCController.getInstance().calculateGradient(colorToMove.blue, pixel-actualPixel , pixelLength, 10 , doGradient);
-                }
-          }else if( (pixel >= from  && pixel <= to ) ){
-
-            let i = 3 * pixel
-            data[i] = FCController.getInstance().calculateGradient(colorToMove.red, pixel-actualPixel, pixelLength, 10 , doGradient);
-            data[i + 1] = FCController.getInstance().calculateGradient(colorToMove.green, pixel-actualPixel, pixelLength, 10 , doGradient);
-            data[i + 2] = FCController.getInstance().calculateGradient(colorToMove.blue, pixel-actualPixel , pixelLength, 10 , doGradient);
-
-          }
-    }
-    FCController.getInstance().fc.send(data)
   }
 
 }
