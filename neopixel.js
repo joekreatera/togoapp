@@ -198,7 +198,7 @@ class FCController{
   chase(colorToMove, pixelLength, resetLayer, frame, totalFrames, data, totalLedCount , doGradient){
 
 
-    var actualPixel = Math.floor((frame*1.0/totalFrames))*totalLedCount;
+    var actualPixel = Math.floor((frame*1.0/totalFrames)*totalLedCount);
     console.log("{>}"+actualPixel + " // " + frame  + " // " + totalFrames);
     for (let pixel = 0; pixel < totalLedCount; pixel ++) {
 
