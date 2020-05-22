@@ -175,6 +175,13 @@ class NeopixelLogicModule{
 
     console.log(step + " // " + pct +  "     " +startTop + "   " + startBottom);
 
+    for( var pixel = firstIndex ; pixel < firstIndex + totalLedCount ; pixel++){
+      let i = 3 * (pixel)
+      data[i] = 0
+      data[i + 1] = 0
+      data[i + 2] = 0
+    }
+
     for(var pixel  = Math.floor(startTop - step) ; pixel < Math.ceil(startTop+step) ; pixel++){
       let i = 3 * (pixel+firstIndex)
       data[i] = eyeColor.red
