@@ -100,7 +100,7 @@ class FCController{
     });
 
     this.fc.on(FadeCandy.events.COLOR_LUT_READY, function () {
-        console.log('FaceCandy says color lut ready')
+        console.log('FaceCandy says color lut ready on' +  this.totalLedCount+' leds');
 
     	// do some reeeeally basic running light on 6 leds
         let frame = 1
