@@ -166,14 +166,14 @@ class NeopixelLogicModule{
 
     switch(this.mode){
         case FCController.BREATH_MODE:
-            this.breathe(this.mainColor, this.secondaryColor, frame, this.frameTotals, data, this.firstIndex this.totalLedCount);
+            this.breathe(this.mainColor, this.secondaryColor, frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
              break;
         case FCController.CHASE_MODE:
-            this.chase(this.mainColor , this.chaseWidth ,true, frame, this.frameTotals, data, this.firstIndex this.totalLedCount);
+            this.chase(this.mainColor , this.chaseWidth ,true, frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
             break;
         case FCController.CHASE_BREATH_MODE:
-            this.breathe(this.mainColor, this.secondaryColor, frame, this.frameTotals, data, this.firstIndex this.totalLedCount);
-            this.chase(this.mainColor , this.chaseWidth ,false, frame, this.frameTotals, data, this.firstIndex this.totalLedCount);
+            this.breathe(this.mainColor, this.secondaryColor, frame, this.frameTotals, data, this.firstIndex ,this.totalLedCount);
+            this.chase(this.mainColor , this.chaseWidth ,false, frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
             break;
         case FCController.FREESTYLE_MODE:
             this.setFreeColor(this.colorFunction(), data, this.firstIndex this.totalLedCount);
