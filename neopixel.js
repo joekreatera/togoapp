@@ -128,9 +128,13 @@ class FCController{
   }
 
   printDebugData(){
-    for( module in this.getModules() ){
+    var mods = this.getModules();
+
+    mods.forEach((elem, idx, array)=>{
+      console.log(module);
       console.log(module.getDebugData());
-    }
+    });
+
   }
 
 /*
@@ -140,10 +144,7 @@ so it can appear as different timings :D
 
   init(){
 
-    console.log("Mode " + FCController.mode);
-    console.log("Loop Mode " + FCController.loopMode);
-
-    this.fc.on(FadeCandy.events.READY, function () {
+      this.fc.on(FadeCandy.events.READY, function () {
 
         console.log('FadeCandy.events.READY')
         FCController.getInstance().fc.clut.create()
@@ -152,7 +153,7 @@ so it can appear as different timings :D
     });
 
     this.fc.on(FadeCandy.events.COLOR_LUT_READY, function () {
-        console.log('FaceCandy says color lut ready on ' + FCController.totalLedCount +' leds');
+
         if( !FCController.stripsConfigured){
           console.log("ERROR! : no strips configured");
           return;
@@ -163,8 +164,10 @@ so it can appear as different timings :D
         setInterval(function () {
           if( FCController.syncFunction != null )
             FCController.syncFunction();
-          for( module in FCController.getInstance().getModules() ){
-            module.update(data);
+
+          var mods = FCController.getInstance().getModules();
+          for(var m = 0;i m < mods.length; m++ ){
+            mods[m].update(data);
           }
           FCController.getInstance().fc.send(data)
         }, 100);
