@@ -547,24 +547,24 @@ var configData ={
     ledsPerStrip:16,
     strips:[
       {
-        mode:FCController.BREATH_MODE,
-        loopMode:FCController.FORWARD,
+        mode:NeopixelConstants.BREATH_MODE,
+        loopMode:NeopixelConstants.FORWARD,
         mainColor:PixelColor.RED,
         secondaryColor:PixelColor.BLUE,
         leds:16,
         chaseWidth:3
      },
      {
-       mode:FCController.CHASE_MODE,
-       loopMode:FCController.FORWARD,
+       mode:NeopixelConstants.CHASE_MODE,
+       loopMode:NeopixelConstants.FORWARD,
        mainColor:PixelColor.RED,
        secondaryColor:PixelColor.BLUE,
        leds:16,
        chaseWidth:3
     },
     {
-      mode:FCController.CHASE_MODE,
-      loopMode:FCController.PING_PONG,
+      mode:NeopixelConstants.CHASE_MODE,
+      loopMode:NeopixelConstants.PING_PONG,
       mainColor:PixelColor.RED,
       secondaryColor:PixelColor.BLUE,
       leds:16,
