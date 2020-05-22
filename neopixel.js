@@ -80,8 +80,9 @@ class FCController{
 
 
     FCController.totalLedCount = 1;
-    FCController.fc = new FadeCandy();
+
     FCController.instance = this;
+    this.fc = new FadeCandy();
     FCController.stripsConfigured = false;
     this.strips = new Array();
     this.data = null;
