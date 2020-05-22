@@ -131,7 +131,6 @@ class FCController{
     var mods = this.getModules();
 
     mods.forEach((elem, idx, array)=>{
-      console.log(elem);
       console.log(elem.getDebugData());
     });
 
@@ -167,9 +166,9 @@ so it can appear as different timings :D
 
           var mods = FCController.getInstance().getModules();
           for(var m = 0; m < mods.length; m++ ){
-            mods[m].update(data);
+            mods[m].update(FCController.getInstance().data);
           }
-          FCController.getInstance().fc.send(data)
+          FCController.getInstance().fc.send(FCController.getInstance().data)
         }, 100);
     });
 
