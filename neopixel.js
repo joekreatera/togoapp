@@ -131,8 +131,8 @@ class FCController{
     var mods = this.getModules();
 
     mods.forEach((elem, idx, array)=>{
-      console.log(module);
-      console.log(module.getDebugData());
+      console.log(elem);
+      console.log(elem.getDebugData());
     });
 
   }
