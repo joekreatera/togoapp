@@ -550,7 +550,7 @@ LEDControl.setMode(LEDControl.CHASE_MODE);
 LEDControl.setChaseColor(34,123,255);
 LEDControl.setChaseWidth(5);
 LEDControl.setLedCount(143);
-//LEDControl.setFrameTotals(10);
+LEDControl.setFrameTotals(200);
 LEDControl.setLoopMode(LEDControl.PING_PONG);
 //LEDControl.setLoopMode(LEDControl.FORWARD);
 //LEDControl.setMode(LEDControl.FREESTYLE_MODE);
