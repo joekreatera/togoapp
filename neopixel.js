@@ -166,7 +166,7 @@ so it can appear as different timings :D
             FCController.syncFunction();
 
           var mods = FCController.getInstance().getModules();
-          for(var m = 0;i m < mods.length; m++ ){
+          for(var m = 0; m < mods.length; m++ ){
             mods[m].update(data);
           }
           FCController.getInstance().fc.send(data)
