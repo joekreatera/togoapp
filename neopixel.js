@@ -199,7 +199,9 @@ class FCController{
 
 
     var actualPixel = Math.floor((frame*1.0/totalFrames)*totalLedCount);
-    console.log("{>}"+actualPixel + " // " + frame  + " // " + totalFrames);
+    var from = actualPixel-Math.floor(pixelLength/2);
+    var to = actualPixel+Math.floor(pixelLength/2);
+
     for (let pixel = 0; pixel < totalLedCount; pixel ++) {
 
 
@@ -209,11 +211,33 @@ class FCController{
             data[i + 1] = 0
             data[i + 2] = 0
           }
-          if( pixel >= actualPixel-Math.floor(pixelLength/2) && pixel <= actualPixel+Math.floor(pixelLength/2)  ){
+
+
+          if(from < 0 ){
+                  var from_aux = from+totalLedCount;
+
+                  if( pixel > from_aux){
+                    let i = 3 * pixel
+                    data[i] = FCController.getInstance().calculateGradient(colorToMove.red, pixel-actualPixel, pixelLength, 10 , doGradient);
+                    data[i + 1] = FCController.getInstance().calculateGradient(colorToMove.green, pixel-actualPixel, pixelLength, 10 , doGradient);
+                    data[i + 2] = FCController.getInstance().calculateGradient(colorToMove.blue, pixel-actualPixel , pixelLength, 10 , doGradient);
+                  }
+          }else if(to >= totalLedCount ){
+                var to_aux = to%totalLedCount;
+
+                if( pixel < to_aux){
+                  let i = 3 * pixel
+                  data[i] = FCController.getInstance().calculateGradient(colorToMove.red, pixel-actualPixel, pixelLength, 10 , doGradient);
+                  data[i + 1] = FCController.getInstance().calculateGradient(colorToMove.green, pixel-actualPixel, pixelLength, 10 , doGradient);
+                  data[i + 2] = FCController.getInstance().calculateGradient(colorToMove.blue, pixel-actualPixel , pixelLength, 10 , doGradient);
+                }
+          }else if( (pixel >= from  && pixel <= to ) ){
+
             let i = 3 * pixel
             data[i] = FCController.getInstance().calculateGradient(colorToMove.red, pixel-actualPixel, pixelLength, 10 , doGradient);
             data[i + 1] = FCController.getInstance().calculateGradient(colorToMove.green, pixel-actualPixel, pixelLength, 10 , doGradient);
             data[i + 2] = FCController.getInstance().calculateGradient(colorToMove.blue, pixel-actualPixel , pixelLength, 10 , doGradient);
+
           }
     }
     FCController.getInstance().fc.send(data)
