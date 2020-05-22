@@ -67,7 +67,7 @@ class NeopixelLogicModule{
     }
   }
 
-  chase(colorToMove, pixelLength, resetLayer, frame, frameTotals, data, firstIndex, totalLedCount){
+  chase(colorToMove, pixelLength, resetLayer, frame, totalFrames, data, firstIndex, totalLedCount){
 
 
     var actualPixel = firstIndex+Math.floor((frame*1.0/totalFrames)*totalLedCount);
@@ -115,7 +115,7 @@ class NeopixelLogicModule{
 
   }
 
-  breathe(fromColor,toColor,frame,frameTotals,data, firstIndex,totalLedCount){
+  breathe(fromColor,toColor,frame,totalFrames,data, firstIndex,totalLedCount){
 
 
     var redAmount = fromColor.red + (toColor.red - fromColor.red)*(frame*1.0/totalFrames);
