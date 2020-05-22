@@ -549,7 +549,7 @@ LEDControl.setMode(LEDControl.BREATH_MODE);
 //LEDControl.setMode(LEDControl.CHASE_BREATH_MODE);
 //LEDControl.setChaseColor(34,123,255);
 //LEDControl.setChaseWidth(5);
-LEDControl.setLedCount(200);
+LEDControl.setLedCount(138);
 //LEDControl.setFrameTotals(10);
 LEDControl.setLoopMode(LEDControl.PING_PONG);
 //LEDControl.setLoopMode(LEDControl.FORWARD);
