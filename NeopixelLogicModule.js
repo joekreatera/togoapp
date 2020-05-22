@@ -73,7 +73,7 @@ class NeopixelLogicModule{
     var actualPixel = firstIndex+Math.floor((frame*1.0/totalFrames)*totalLedCount);
     var from = actualPixel-Math.floor(pixelLength/2);
     var to = actualPixel+Math.floor(pixelLength/2);
-
+    var doGradient = false; // experimental feature, not needed
     for (let pixel = firstIndex; pixel < firstIndex+totalLedCount; pixel ++) {
 
 
