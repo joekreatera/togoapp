@@ -545,7 +545,7 @@ function getColor(){
 // this should change as it does not reflect the internal state. Just with setMode or setLoopMode the variables should be set. idea?: make the static vars, instance vars.
 var ledInstance = LEDControl.getInstance();
 //LEDControl.setMode(LEDControl.BREATH_MODE);
-LEDControl.setMode(LEDControl.CHASE);
+LEDControl.setMode(LEDControl.CHASE_MODE);
 //LEDControl.setMode(LEDControl.CHASE_BREATH_MODE);
 LEDControl.setChaseColor(34,123,255);
 LEDControl.setChaseWidth(5);
