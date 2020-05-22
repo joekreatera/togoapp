@@ -173,8 +173,6 @@ class NeopixelLogicModule{
     var startTop = (totalLedCount*1.0/2)/2-0.5; // with 16 leeds this should be the middle between 3 and 4 led
     var startBottom = (totalLedCount*1.0/2 + totalLedCount*1.0)/2-0.5; // with 16 leeds this should be the middle between 3 and 4 led
 
-    console.log(step + " // " + pct +  "     " +startTop + "   " + startBottom);
-
     for( var pixel = firstIndex ; pixel < firstIndex + totalLedCount ; pixel++){
       let i = 3 * (pixel)
       data[i] = eyeColor.red
