@@ -177,6 +177,7 @@ class FCController{
             data[i + 2] = blueAmount
     }
     FCController.getInstance().fc.send(data)
+    console.log("sending data");
   }
 
 
