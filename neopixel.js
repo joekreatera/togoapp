@@ -199,7 +199,7 @@ class FCController{
 
 
     var actualPixel = Math.floor((frame*1.0/totalFrames))*totalLedCount;
-
+    console.log("{>}"+actualPixel);
     for (let pixel = 0; pixel < totalLedCount; pixel ++) {
 
 
