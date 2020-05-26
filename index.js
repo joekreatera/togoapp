@@ -43,7 +43,10 @@ const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
 const Gpio = require('onoff').Gpio;
+const Omx = require('node-omxplayer');
 
+
+const omxPlayer = Omx(); // sound on raspberry!
 
 const GENERAL_QUERY = 0;
 const MORNING_ROUTINE_GET = 1;
@@ -80,6 +83,26 @@ function getButtonPushed(){
 }
 /*  *********************************************  */
 
+
+/* ******************OMX PLAYER FOR STORY TELL***************** */
+
+function playSong(sng){
+
+  omxPlayer.removeListener('close',songEnded);
+  omxPlayer.newSource( getFile( sng ) );
+  omxPlayer.on('close' , songEnded);
+}
+
+function pauseSong(){
+  omxPlayer.pause();
+
+}
+
+function songEnded(){
+  console.log("Song ended!!!! ");
+}
+
+/* *********************************************** */
 
 /* GOOGLE CALENDAR SET UP*/
 
@@ -352,6 +375,11 @@ function doGeneralQuery(cb){
                         }
                       }
 
+                      if( doc.data().type == 3){ // start story tell
+                          if( state == GENERAL_QUERY)
+                             state = STORYTELLING;
+                      }
+
                       if( doc.data().type == 1){
                         if( doc.data().content.routine == "wakeuptime_week"){
                           GeneralVariables.update("wakeuptime_week", doc.data().content.message);
@@ -377,7 +405,31 @@ function doGeneralQuery(cb){
 }
 
 
+function doStorytellRoutine(callback){
 
+  console.log("Telling story!");
+
+  LEDControl.showHappyFace( LEDControl.buildColor(0,255,0) , LEDControl.buildColor(0,255,0) );
+
+  if( omxPlayer.running ){
+
+    if( getButtonPushed() ){
+      // cancel and return
+      omxPlayer.quit();
+      state = GENERAL_QUERY;
+
+      LEDControl.showIdleFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
+    }else{
+      // do nothing , kid's listening
+    }
+
+  }else{
+    state = GENERAL_QUERY;
+  }
+
+  callback();
+
+}
 
 function doBedtimeRoutine(callback){
   // check any of the alarms
@@ -564,6 +616,12 @@ function syncData(){
       // ask database for any robot event status 0, type = 6
       console.log(" ACTIVITY CHECK ");
     doActivityCheck( ()=>{
+      setTimeout( syncData , 4000);
+    } );
+  }
+
+  if( state == STORYTELLING ){
+    doStorytellRoutine( ()=>{
       setTimeout( syncData , 4000);
     } );
   }

@@ -17,6 +17,9 @@ class NeopixelLogicModule{
   setSecondaryColor(pixelColor){
       this.secondaryColor = pixelColor;
   }
+  setPixelArray(arr){
+    this.pixelArray = arr;
+  }
 
   setGetColorFunction(cb){
       this.colorFunction = cb;
@@ -196,6 +199,30 @@ class NeopixelLogicModule{
 
   }
 
+  onPixels(pixelArray,mainColor,frame, totalFrames, data, firstIndex, totalLedCount){
+      // pixel array is 0 -based on specific pixels to draw
+      var userPixel = 0;
+
+      if( pixelArray.length() != totalLedCount ){
+        console.log("Arrays on pixels from different size!");
+        return;
+      }
+      for( var pixel = firstIndex; pixel< firstIndex+totalLedCount; pixel++){
+        let i = 3 * (pixel)
+        if( pixelArray[userPixel] == 0 ){
+          data[i] = 0
+          data[i + 1] = 0
+          data[i + 2] = 0
+        }else{
+          data[i] = mainColor.red
+          data[i + 1] = mainColor.green
+          data[i + 2] = mainColor.blue
+        }
+
+        userPixel++;
+      }
+  }
+
   update(data){
 
     switch(this.mode){
@@ -215,6 +242,9 @@ class NeopixelLogicModule{
         case NeopixelConstants.EYE_BLINK_MODE:
             this.eyeBlink(this.mainColor, this.frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
             break;
+        case NeopixelConstants.PIXEL_MODE:
+              this.onPixels(this.pixelArray, this.mainColor, this.frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
+              break;
 
     }
 
