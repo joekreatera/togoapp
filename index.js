@@ -401,6 +401,8 @@ function doBedtimeRoutine(callback){
               actualRoutineList = steps;
               state = ACTIVITY_CHECK;
             }
+
+              callback();
         });
 
 }
@@ -537,6 +539,7 @@ function checkAlarms(){
 }
 
 function syncData(){
+  console.log(" STATE "  + state);
   if( state == GENERAL_QUERY){
     doGeneralQuery( () => {
       checkAlarms();
@@ -559,6 +562,7 @@ function syncData(){
 
   if( state == ACTIVITY_CHECK ){
       // ask database for any robot event status 0, type = 6
+      console.log(" ACTIVITY CHECK ");
     doActivityCheck( ()=>{
       setTimeout( syncData , 4000);
     } );
