@@ -55,10 +55,14 @@ var firebase = require("firebase-admin");
 var serviceAccount = require("../togotest-227be-c6def00de4ba.json");
 var session_test = "";
 
-// keep the state, mini abstraction layer
-var manualOverridePushed = 1;
 
+
+/*  ******************** LIMIT SWITCH ABST LAYER*************************  */
+// keep the state, mini abstraction layer
+const button = new Gpio(4, 'in', 'both');
+var manualOverridePushed = 1;
 var latchOverride = false;
+
 button.watch((err, value) => {
     if(manualOverridePushed == 1 &&  value == 0){
         latchOverride = true;  // user pushed
@@ -74,8 +78,8 @@ function getButtonPushed(){
   }
   return false;
 }
+/*  *********************************************  */
 
-const button = new Gpio(4, 'in', 'both');
 
 /* GOOGLE CALENDAR SET UP*/
 
