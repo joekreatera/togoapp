@@ -402,7 +402,7 @@ function doBedtimeRoutine(callback){
               state = ACTIVITY_CHECK;
             }
 
-              callback();
+            callback();
         });
 
 }
