@@ -419,14 +419,15 @@ function doStorytellRoutine(callback){
       // cancel and return
       omxPlayer.quit();
       state = GENERAL_QUERY;
-
+/*
       setTimeout( ()=>{
 
           LEDControl.setMode(NeopixelConstants.EYE_BLINK_MODE,0);
           LEDControl.setMode(NeopixelConstants.EYE_BLINK_MODE,1);
           LEDControl.setMode(NeopixelConstants.EYE_BLINK_MODE,2);
 
-      } , 7000)
+      } , 7000)*/
+      
       LEDControl.showIdleFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
     }else{
       // do nothing , kid's listening
