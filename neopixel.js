@@ -136,7 +136,7 @@ class FCController{
 
   }
 
-  showHappyFace(eyeColor, mouthColor){
+  static showHappyFace(eyeColor, mouthColor){
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
 
@@ -155,7 +155,7 @@ class FCController{
       mods[2].setMainColor(eyeColor);
       mods[2].setPixelArray([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
   }
-  showSadFace(eyeColor, mouthColor){
+  static showSadFace(eyeColor, mouthColor){
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
       var mods = FCController.getInstance().getModules();
@@ -173,7 +173,7 @@ class FCController{
       mods[2].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
 
   }
-  showIdleFace(eyeColor, mouthColor){
+  static showIdleFace(eyeColor, mouthColor){
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
       var mods = FCController.getInstance().getModules();
