@@ -202,7 +202,7 @@ class NeopixelLogicModule{
   onPixels(pixelArray,mainColor,frame, totalFrames, data, firstIndex, totalLedCount){
       // pixel array is 0 -based on specific pixels to draw
       var userPixel = 0;
-      console.log(pixelArray);
+
       if( pixelArray.length != totalLedCount ){
         console.log("Arrays on pixels from different size!");
         return;
