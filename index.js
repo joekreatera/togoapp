@@ -89,7 +89,7 @@ function getButtonPushed(){
 function playSong(sng){
 
   omxPlayer.removeListener('close',songEnded);
-  omxPlayer.newSource( getFile( sng ) );
+  omxPlayer.newSource(  "./" + sng  );
   omxPlayer.on('close' , songEnded);
 }
 
@@ -376,8 +376,10 @@ function doGeneralQuery(cb){
                       }
 
                       if( doc.data().type == 3){ // start story tell
-                          if( state == GENERAL_QUERY)
+                          if( state == GENERAL_QUERY){
                              state = STORYTELLING;
+                             playSong('cuento.mp3');
+                           }
                       }
 
                       if( doc.data().type == 1){
