@@ -447,7 +447,8 @@ function doMorningRoutine(callback){
 
 
 function doActivityCheck(cb){
-  let query = db.collection('robot_events').where('robot','==',myRobot).where('status','==',0).where('type','==', 6);
+
+  console.log("Checking button ");
 
   if( getButtonPushed() ){
 
@@ -464,7 +465,14 @@ function doActivityCheck(cb){
     // finished process
     cb();
 
+  }else{
+
+      console.log("Checking database");
+
   }
+
+  let query = db.collection('robot_events').where('robot','==',myRobot).where('status','==',0).where('type','==', 6);
+
 
   query.get().then(querySnapshot => {
                   console.log("Getting data from activity check ... ");
