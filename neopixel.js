@@ -143,34 +143,34 @@ class FCController{
       //  change mode to PIXEL_MODE
       var mods = FCController.getInstance().getModules();
 
-      mods[0].setMode(NeopixelConstants.PIXEL_MODE);
       mods[0].setMainColor(mouthColor);
       mods[0].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
+      mods[0].setMode(NeopixelConstants.PIXEL_MODE);
 
-      mods[1].setMode(NeopixelConstants.PIXEL_MODE);
       mods[1].setMainColor(eyeColor);
       mods[1].setPixelArray([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+      mods[1].setMode(NeopixelConstants.PIXEL_MODE);
 
-      mods[2].setMode(NeopixelConstants.PIXEL_MODE);
       mods[2].setMainColor(eyeColor);
       mods[2].setPixelArray([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+      mods[2].setMode(NeopixelConstants.PIXEL_MODE);
   }
   static showSadFace(eyeColor, mouthColor){
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
       var mods = FCController.getInstance().getModules();
 
-      mods[0].setMode(NeopixelConstants.PIXEL_MODE);
       mods[0].setMainColor(mouthColor);
       mods[0].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
+      mods[0].setMode(NeopixelConstants.PIXEL_MODE);
 
-      mods[1].setMode(NeopixelConstants.PIXEL_MODE);
       mods[1].setMainColor(eyeColor);
       mods[1].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
+      mods[1].setMode(NeopixelConstants.PIXEL_MODE);
 
-      mods[2].setMode(NeopixelConstants.PIXEL_MODE);
       mods[2].setMainColor(eyeColor);
       mods[2].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
+      mods[2].setMode(NeopixelConstants.PIXEL_MODE);
 
   }
   static showIdleFace(eyeColor, mouthColor){
@@ -178,17 +178,17 @@ class FCController{
       // 0 is mouth
       var mods = FCController.getInstance().getModules();
 
-      mods[0].setMode(NeopixelConstants.PIXEL_MODE);
       mods[0].setMainColor(mouthColor);
       mods[0].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
+      mods[0].setMode(NeopixelConstants.PIXEL_MODE);
 
-      mods[1].setMode(NeopixelConstants.PIXEL_MODE);
       mods[1].setMainColor(eyeColor);
       mods[1].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
+      mods[1].setMode(NeopixelConstants.PIXEL_MODE);
 
-      mods[2].setMode(NeopixelConstants.PIXEL_MODE);
       mods[2].setMainColor(eyeColor);
       mods[2].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
+      mods[2].setMode(NeopixelConstants.PIXEL_MODE);
 
 
   }
