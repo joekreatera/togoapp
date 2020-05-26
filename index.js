@@ -422,9 +422,9 @@ function doStorytellRoutine(callback){
 
       setTimeout( ()=>{
 
-          LEDControl.setMode(EYE_BLINK_MODE,0);
-          LEDControl.setMode(EYE_BLINK_MODE,1);
-          LEDControl.setMode(EYE_BLINK_MODE,2);
+          LEDControl.setMode(NeopixelConstants.EYE_BLINK_MODE,0);
+          LEDControl.setMode(NeopixelConstants.EYE_BLINK_MODE,1);
+          LEDControl.setMode(NeopixelConstants.EYE_BLINK_MODE,2);
 
       } , 7000)
       LEDControl.showIdleFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
