@@ -42,6 +42,8 @@ const NeopixelConstants = require('./NeopixelConstants.js');
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
+const Gpio = require('onoff').Gpio;
+
 
 const GENERAL_QUERY = 0;
 const MORNING_ROUTINE_GET = 1;
@@ -52,6 +54,28 @@ const STORYTELLING = 4;
 var firebase = require("firebase-admin");
 var serviceAccount = require("../togotest-227be-c6def00de4ba.json");
 var session_test = "";
+
+// keep the state, mini abstraction layer
+var manualOverridePushed = 1;
+
+var latchOverride = false;
+button.watch((err, value) => {
+    if(manualOverridePushed == 1 &&  value == 0){
+        latchOverride = true;  // user pushed
+    }
+    manualOverridePushed = value;
+    console.log("Value: " + value);
+});
+
+function getButtonPushed(){
+  if( latchOverride ){
+    latchOverride = false;
+    return true;
+  }
+  return false;
+}
+
+const button = new Gpio(4, 'in', 'both');
 
 /* GOOGLE CALENDAR SET UP*/
 
@@ -421,12 +445,30 @@ function doMorningRoutine(callback){
 function doActivityCheck(cb){
   let query = db.collection('robot_events').where('robot','==',myRobot).where('status','==',0).where('type','==', 6);
 
+  if( getButtonPushed() ){
+
+    console.log(actualRoutineList);
+
+    if( actualRoutineList.length <= 0 ){
+      state = GENERAL_QUERY;
+      togoSpeak('You have completed all the tasks! Congratulations! ' );
+    }
+
+    if( actualRoutineList.length > 0 ){
+      togoSpeak('Now it\'s time to ' + actualRoutineList[0].activity + '' );
+    }
+    // finished process
+    cb();
+
+  }
+
   query.get().then(querySnapshot => {
                   console.log("Getting data from activity check ... ");
                   let docs = querySnapshot.docs;
                   var doc = null;
                   var doNextRouting = false;
                   var wasCancelled = false;
+
                   for (doc of docs) {
                       console.log("Completed1? " + doc.id);
                       if( doc.data().content.message == "CANCEL"){
