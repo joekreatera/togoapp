@@ -553,12 +553,13 @@ function doActivityCheck(cb){
     }
 
     if( actualRoutineList.length > 0 ){
+      actualRoutineList.shift();
       LEDControl.showIdleFace(PixelColor.CYAN,PixelColor.CYAN);
       togoSpeak('Now it\'s time to ' + actualRoutineList[0].activity + '' );
       timesTeskChecked = 0;
     }
     // finished process
-    cb();
+    //cb();
 
   }else{
 
@@ -621,7 +622,7 @@ function doActivityCheck(cb){
 
                   }
 
-                  if(timesTeskChecked>0 && timesTeskChecked%5 == 0){
+                  if(timesTeskChecked>0 && timesTeskChecked%10 == 0){
                     console.log("Togo is sad");
                     LEDControl.showSadFace(PixelColor.BLUE, PixelColor.BLUE);
                   }
