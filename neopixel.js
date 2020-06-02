@@ -75,7 +75,7 @@ class FCController{
 
   constructor(){
     FCController.instance = null;
-
+    FCController.facesPasses = 0; // amount of times a happy or sad face has been displayed. After N will default to idel
     FCController.syncFunction = null;
 
 
@@ -144,7 +144,7 @@ class FCController{
   static showHappyFace(eyeColor, mouthColor){
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
-
+      FCController.facesPasses++;
       //  change mode to PIXEL_MODE
       var mods = FCController.getInstance().getModules();
 
@@ -159,8 +159,11 @@ class FCController{
       mods[2].setMainColor(eyeColor);
       mods[2].setPixelArray([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
       mods[2].setMode(NeopixelConstants.PIXEL_MODE);
+
+      FCController.defaultToIdleFace();
   }
   static showSadFace(eyeColor, mouthColor){
+      FCController.facesPasses++;
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
       var mods = FCController.getInstance().getModules();
@@ -176,17 +179,42 @@ class FCController{
       mods[2].setMainColor(eyeColor);
       mods[2].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
       mods[2].setMode(NeopixelConstants.PIXEL_MODE);
+
+      FCController.defaultToIdleFace();
+
+  }
+
+  static defaultToIdleFace(){
+
+    // 20 passes, as fps are 10f/s
+    if(  FCController.facesPasses > 30 ){
+      FCController.showIdleFace();
+      FCController.facesPasses = 0;
+    }
 
   }
   static showIdleFace(eyeColor, mouthColor){
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
+
       var mods = FCController.getInstance().getModules();
+
+      FCController.facesPasses = 0;
 
       mods[0].setMainColor(mouthColor);
       mods[0].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
       mods[0].setMode(NeopixelConstants.PIXEL_MODE);
 
+
+      mods[1].setMainColor(eyeColor);
+      mods[1].setMode(NeopixelConstants.EYE_BLINK_MODE);
+      mods[1].setLoopMode(NeopixelConstants.FORWARD);
+
+      mods[2].setMainColor(eyeColor);
+      mods[2].setMode(NeopixelConstants.EYE_BLINK_MODE);
+      mods[2].setLoopMode(NeopixelConstants.FORWARD);
+
+      /*
       mods[1].setMainColor(eyeColor);
       mods[1].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
       mods[1].setMode(NeopixelConstants.PIXEL_MODE);
@@ -194,10 +222,30 @@ class FCController{
       mods[2].setMainColor(eyeColor);
       mods[2].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
       mods[2].setMode(NeopixelConstants.PIXEL_MODE);
+      */
 
 
   }
 
+  static showWhirlFace(eyeColor, mouthColor){
+      // supposes the order of the strips, 1 and 2 are eyes
+      // 0 is mouth
+      var mods = FCController.getInstance().getModules();
+
+
+      mods[0].setMainColor(eyeColor);
+      mods[0].setMode(NeopixelConstants.CHASE_MODE);
+      mods[0].setLoopMode(NeopixelConstants.FORWARD);
+
+
+      mods[1].setMainColor(eyeColor);
+      mods[1].setMode(NeopixelConstants.CHASE_MODE);
+      mods[1].setLoopMode(NeopixelConstants.FORWARD);
+
+      mods[2].setMainColor(eyeColor);
+      mods[2].setMode(NeopixelConstants.CHASE_MODE);
+      mods[2].setLoopMode(NeopixelConstants.FORWARD);
+  }
 
   static close(){
       FCController.getInstance().close();

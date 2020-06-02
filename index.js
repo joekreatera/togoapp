@@ -57,7 +57,7 @@ const STORYTELLING = 4;
 var firebase = require("firebase-admin");
 var serviceAccount = require("../togotest-227be-c6def00de4ba.json");
 var session_test = "";
-
+var timesTeskChecked = 0;
 
 
 /*  ******************** LIMIT SWITCH ABST LAYER*************************  */
@@ -471,7 +471,7 @@ function doStorytellRoutine(callback){
 function doBedtimeRoutine(callback){
   // check any of the alarms
   console.log("ENTERED ON BEDTIME ROUTINE GET");
-
+        LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
 
 
         let query = db.collection('routines').where('robot','==',myRobot).where('routine_name', '==' , 'bedtime');
@@ -490,7 +490,7 @@ function doBedtimeRoutine(callback){
               actualRoutineList = steps;
               state = ACTIVITY_CHECK;
             }
-
+            LEDControl.showIdleFace(PixelColor.CYAN,PixelColor.CYAN);
             callback();
         });
 
@@ -501,7 +501,7 @@ function doMorningRoutine(callback){
   // check any of the alarms
   console.log("ENTERED ON MORNING ROUTINE GET");
 
-
+        LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
 
         let query = db.collection('routines').where('robot','==',myRobot).where('routine_name', '==' , 'wakeup_week');
 
@@ -528,6 +528,7 @@ function doMorningRoutine(callback){
                     togoSpeak("Remember today is : " + e);
                     await new Promise(resolve => setTimeout(resolve, 5000));
                   }
+                  LEDControl.showIdleFace(PixelColor.CYAN,PixelColor.CYAN);
                   callback();
                 });
             });
@@ -535,6 +536,7 @@ function doMorningRoutine(callback){
         });
 
 }
+
 
 
 function doActivityCheck(cb){
@@ -548,10 +550,13 @@ function doActivityCheck(cb){
     if( actualRoutineList.length <= 0 ){
       state = GENERAL_QUERY;
       togoSpeak('You have completed all the tasks! Congratulations! ' );
+      LEDControl.showHappyFace(PixelColor.GREEN,PixelColor.GREEN);
+      timesTeskChecked = 0;
     }
 
     if( actualRoutineList.length > 0 ){
       togoSpeak('Now it\'s time to ' + actualRoutineList[0].activity + '' );
+      LEDControl.showIdleFace(PixelColor.CYAN,PixelColor.CYAN);
     }
     // finished process
     cb();
@@ -571,6 +576,8 @@ function doActivityCheck(cb){
                   var doc = null;
                   var doNextRouting = false;
                   var wasCancelled = false;
+
+                  timesTeskChecked++;
 
                   for (doc of docs) {
                       console.log("Completed1? " + doc.id);
@@ -596,15 +603,24 @@ function doActivityCheck(cb){
 
                     if( actualRoutineList.length <= 0 ){
                       state = GENERAL_QUERY;
+                      timesTeskChecked = 0;
                       togoSpeak('You have completed all the tasks! Congratulations! ' );
+                      LEDControl.showHappyFace(PixelColor.GREEN,PixelColor.GREEN);
                     }
                   }
                   if( wasCancelled ){
                     state = GENERAL_QUERY;
+                    timesTeskChecked = 0;
                     togoSpeak('Let\'s do something else!' );
                   }
                   if( actualRoutineList.length > 0 ){
                     togoSpeak('Now it\'s time to ' + actualRoutineList[0].activity + '' );
+                    LEDControl.showIdleFace(PixelColor.CYAN,PixelColor.CYAN);
+                    timesTeskChecked = 0;
+                  }
+
+                  if(timesTeskChecked>0 && timesTeskChecked%5 == 0){
+                    LEDControl.showSadFace(PixelColor.BLUE, PixelColor.BLUE);
                   }
                   // finished process
                   cb();
@@ -715,7 +731,7 @@ var configData ={
         mainColor:PixelColor.CYAN,
         secondaryColor:PixelColor.CYAN,
         leds:16,
-        chaseWidth:3
+        chaseWidth:4
      },
      {
        mode:NeopixelConstants.EYE_BLINK_MODE,
@@ -723,7 +739,7 @@ var configData ={
        mainColor:PixelColor.CYAN,
        secondaryColor:PixelColor.CYAN,
        leds:16,
-       chaseWidth:3
+       chaseWidth:4
     },
 
     ]
