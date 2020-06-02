@@ -563,7 +563,7 @@ function doActivityCheck(cb){
       timesTeskChecked = 0;
     }
     // finished process
-    cb();
+    cb('button');
     return;
   }else{
 
@@ -631,7 +631,7 @@ function doActivityCheck(cb){
                     LEDControl.showSadFace(PixelColor.BLUE, PixelColor.BLUE);
                   }
                   // finished process
-                  cb();
+                  cb('network');
 
                   //app.delete().then( () => { console.log( "Finished"); });
               }
@@ -654,44 +654,36 @@ function checkAlarms(){
 
 function syncData(){
   console.log(" STATE "  + state);
-
-  if( state == MORNING_ROUTINE_GET){
-    LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
-
-  doMorningRoutine( () => {
-    setTimeout( syncData , 4000);
-    } );
-  }
-
-  if( state == BEDTIME_ROUTINE_GET){
-    LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
-
-  doBedtimeRoutine( () => {
-    setTimeout( syncData , 4000);
-    } );
-  }
-
-
-  if( state == ACTIVITY_CHECK ){
-      // ask database for any robot event status 0, type = 6
-      console.log(" ACTIVITY CHECK ");
-    doActivityCheck( ()=>{
-      setTimeout( syncData , 4000);
-    } );
-  }
-
-  if( state == STORYTELLING ){
-    doStorytellRoutine( ()=>{
-      setTimeout( syncData , 4000);
-    } );
-  }
-
   if( state == GENERAL_QUERY){
     doGeneralQuery( () => {
       checkAlarms();
       setTimeout( syncData , 4000);
     } );
+  }else if( state == MORNING_ROUTINE_GET){
+    LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
+
+  doMorningRoutine( () => {
+    setTimeout( syncData , 4000);
+    } );
+  }else if( state == BEDTIME_ROUTINE_GET){
+    LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
+
+  doBedtimeRoutine( () => {
+    setTimeout( syncData , 4000);
+    } );
+  }else if( state == ACTIVITY_CHECK ){
+      // ask database for any robot event status 0, type = 6
+      console.log(" ACTIVITY CHECK ");
+    doActivityCheck( (src='')=>{
+      console.log("callback from " + src);
+      setTimeout( syncData , 4000);
+    } );
+  }else if( state == STORYTELLING ){
+    doStorytellRoutine( ()=>{
+      setTimeout( syncData , 4000);
+    } );
   }
+
 }
 
 function parseActualHour(){
