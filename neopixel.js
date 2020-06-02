@@ -212,7 +212,7 @@ so it can appear as different timings :D
 
   initFCInterval(){
 
-    function () {
+
        if( !FCController.stripsConfigured){
          console.log("ERROR! : no strips configured");
          return;
@@ -230,8 +230,6 @@ so it can appear as different timings :D
          }
          FCController.getInstance().fc.send(FCController.getInstance().data)
        }, 100);
-   }
-
   }
 
   init(){
