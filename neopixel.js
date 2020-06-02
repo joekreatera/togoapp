@@ -162,7 +162,7 @@ class FCController{
       mods[2].setMode(NeopixelConstants.PIXEL_MODE);
 
 
-      setTimeout(()=>{ FCController.showIdleFace(); },1000);
+      setTimeout(()=>{ FCController.showIdleFace(FCController.buildColor(0,255,255) , FCController.buildColor(0,255,255) ); },1000);
   }
   static showSadFace(eyeColor, mouthColor){
       FCController.facesPasses++;
