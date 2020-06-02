@@ -171,7 +171,7 @@ class NeopixelLogicModule{
     var pct =(frame*1.0/totalFrames);
 
     // reference for function: https://www.desmos.com/calculator/ohv4b6rxoy
-    pct = Math.sin(Math.min(0.8,max(0,(pct-0.8)))/0.8*Math.PI*4);
+    pct = Math.sin(Math.min(0.8,Math.max(0,(pct-0.8)))/0.8*Math.PI*4);
 
     //var sinPct = Math.abs(Math.sin(pct*Math.PI));
     var step = pct/.2; // -> .2 is a constant required and taken out from the amount of steps needed.
