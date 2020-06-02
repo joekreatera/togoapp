@@ -543,6 +543,8 @@ function doActivityCheck(cb){
 
   if( getButtonPushed() ){
 
+    actualRoutineList.shift();
+
     console.log(actualRoutineList);
 
     if( actualRoutineList.length <= 0 ){
@@ -553,14 +555,14 @@ function doActivityCheck(cb){
     }
 
     if( actualRoutineList.length > 0 ){
-      actualRoutineList.shift();
+
       LEDControl.showIdleFace(PixelColor.CYAN,PixelColor.CYAN);
       togoSpeak('Now it\'s time to ' + actualRoutineList[0].activity + '' );
       timesTeskChecked = 0;
     }
     // finished process
-    //cb();
-
+    cb();
+    return;
   }else{
 
       console.log("Checking database");
