@@ -161,7 +161,8 @@ class FCController{
       mods[2].setPixelArray([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
       mods[2].setMode(NeopixelConstants.PIXEL_MODE);
 
-      FCController.defaultToIdleFace();
+
+      setTimeout(()=>{ showIdleFace(); },1000);
   }
   static showSadFace(eyeColor, mouthColor){
       FCController.facesPasses++;
@@ -182,10 +183,11 @@ class FCController{
       mods[2].setPixelArray([0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]);
       mods[2].setMode(NeopixelConstants.PIXEL_MODE);
 
-      FCController.defaultToIdleFace();
+      //FCController.defaultToIdleFace();
 
   }
 
+  // not used
   static defaultToIdleFace(){
 
     // 20 passes, as fps are 10f/s

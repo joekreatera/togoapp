@@ -397,12 +397,14 @@ function doGeneralQuery(cb){
 
                       if( doc.data().type == 7){
                         if( doc.data().content.routine == "START_ACTIVITY"){
+                            LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
                           if( state == GENERAL_QUERY) // if there were two start_activity
                              state = BEDTIME_ROUTINE_GET;
                         }
                       }
 
                       if( doc.data().type == 3){ // start story tell
+                          LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
                           if( state == GENERAL_QUERY){
                              state = STORYTELLING;
                              playSong('cuento.mp3');
@@ -438,7 +440,7 @@ function doStorytellRoutine(callback){
 
   console.log("Telling story!");
 
-  LEDControl.showHappyFace( LEDControl.buildColor(0,255,0) , LEDControl.buildColor(0,255,0) );
+  LEDControl.showHappyFace( PixelColor.PURPLE, PixelColor.PURPLE );
 
   if( omxPlayer.running ){
 
@@ -644,6 +646,7 @@ function checkAlarms(){
           togoSpeak("It is time to wake up sunshine!!!");
           GeneralVariables.update("wakeuptime_alarm_done",true);
           state = MORNING_ROUTINE_GET;
+          LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
     }
   }
 
@@ -651,12 +654,6 @@ function checkAlarms(){
 
 function syncData(){
   console.log(" STATE "  + state);
-  if( state == GENERAL_QUERY){
-    doGeneralQuery( () => {
-      checkAlarms();
-      setTimeout( syncData , 4000);
-    } );
-  }
 
   if( state == MORNING_ROUTINE_GET){
     LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
@@ -689,6 +686,12 @@ function syncData(){
     } );
   }
 
+  if( state == GENERAL_QUERY){
+    doGeneralQuery( () => {
+      checkAlarms();
+      setTimeout( syncData , 4000);
+    } );
+  }
 }
 
 function parseActualHour(){
@@ -761,8 +764,8 @@ LEDControl.initInstance();
 LEDControl.configureStrips(configData);
 LEDControl.setFrameTotals(40,1);
 LEDControl.setFrameTotals(40,2);
-//LEDControl.showHappyFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
-LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
+LEDControl.showHappyFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
+//LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
 
 LEDControl.start();
 
