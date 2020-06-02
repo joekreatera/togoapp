@@ -265,7 +265,7 @@ function exitHandler(options, exitCode) {
 process.on('exit', exitHandler.bind(null,{cleanup:true}));
 
 //catches ctrl+c event
-process.on('SIGINT', exitHandler.bind(null, {exit:true}));
+process.on('SIGINT', exitHandler.bind(null, {exit:true,sigint:true}));
 
 // catches "kill pid" (for example: nodemon restart)
 process.on('SIGUSR1', exitHandler.bind(null, {exit:true}));
@@ -703,24 +703,24 @@ var configData ={
       {
         mode:NeopixelConstants.CHASE_BREATH_MODE,
         loopMode:NeopixelConstants.PING_PONG,
-        mainColor:PixelColor.PURPLE,
-        secondaryColor:PixelColor.ORANGE,
+        mainColor:PixelColor.CYAN,
+        secondaryColor:PixelColor.CYAN,
         leds:16,
         chaseWidth:4
      },
       {
         mode:NeopixelConstants.EYE_BLINK_MODE,
-        loopMode:NeopixelConstants.PING_PONG,
-        mainColor:PixelColor.RED,
-        secondaryColor:PixelColor.BLUE,
+        loopMode:NeopixelConstants.FORWARD,
+        mainColor:PixelColor.CYAN,
+        secondaryColor:PixelColor.CYAN,
         leds:16,
         chaseWidth:3
      },
      {
        mode:NeopixelConstants.EYE_BLINK_MODE,
-       loopMode:NeopixelConstants.PING_PONG,
-       mainColor:PixelColor.RED,
-       secondaryColor:PixelColor.BLUE,
+       loopMode:NeopixelConstants.FORWARD,
+       mainColor:PixelColor.CYAN,
+       secondaryColor:PixelColor.CYAN,
        leds:16,
        chaseWidth:3
     },
@@ -732,8 +732,9 @@ var configData ={
 // this should change as it does not reflect the internal state. Just with setMode or setLoopMode the variables should be set. idea?: make the static vars, instance vars.
 LEDControl.initInstance();
 LEDControl.configureStrips(configData);
-LEDControl.setFrameTotals(20,1);
-LEDControl.setFrameTotals(20,2);
+LEDControl.setFrameTotals(40,1);
+LEDControl.setFrameTotals(40,2);
+LEDControl.showHappyFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
 LEDControl.start();
 
 setTimeout( syncData , 3000);

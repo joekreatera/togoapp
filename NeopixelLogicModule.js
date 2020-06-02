@@ -166,9 +166,13 @@ class NeopixelLogicModule{
 
   // special for circular strips to appear as an eye blinking.
   //For this is especially important to setup correctly the indexes according to 'eye' rotation in final harware setup
-  // TODO: needs some math!!!
+
   eyeBlink(eyeColor,frame, totalFrames, data, firstIndex, totalLedCount){
     var pct =(frame*1.0/totalFrames);
+
+    // reference for function: https://www.desmos.com/calculator/ohv4b6rxoy
+    pct = Math.sin(Math.min(0.8,max(0,(pct-0.8)))/0.8*Math.PI*4);
+
     //var sinPct = Math.abs(Math.sin(pct*Math.PI));
     var step = pct/.2; // -> .2 is a constant required and taken out from the amount of steps needed.
 
