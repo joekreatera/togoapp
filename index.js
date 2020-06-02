@@ -549,14 +549,14 @@ function doActivityCheck(cb){
 
     if( actualRoutineList.length <= 0 ){
       state = GENERAL_QUERY;
-      togoSpeak('You have completed all the tasks! Congratulations! ' );
       LEDControl.showHappyFace(PixelColor.GREEN,PixelColor.GREEN);
+      togoSpeak('You have completed all the tasks! Congratulations! ' );
       timesTeskChecked = 0;
     }
 
     if( actualRoutineList.length > 0 ){
-      togoSpeak('Now it\'s time to ' + actualRoutineList[0].activity + '' );
       LEDControl.showIdleFace(PixelColor.CYAN,PixelColor.CYAN);
+      togoSpeak('Now it\'s time to ' + actualRoutineList[0].activity + '' );
     }
     // finished process
     cb();
@@ -604,8 +604,9 @@ function doActivityCheck(cb){
                     if( actualRoutineList.length <= 0 ){
                       state = GENERAL_QUERY;
                       timesTeskChecked = 0;
-                      togoSpeak('You have completed all the tasks! Congratulations! ' );
+                      console.log("Togo is happy");
                       LEDControl.showHappyFace(PixelColor.GREEN,PixelColor.GREEN);
+                      togoSpeak('You have completed all the tasks! Congratulations! ' );
                     }
                   }
                   if( wasCancelled ){
@@ -614,12 +615,14 @@ function doActivityCheck(cb){
                     togoSpeak('Let\'s do something else!' );
                   }
                   if( actualRoutineList.length > 0 ){
+                    console.log("Togo is on next");
                     togoSpeak('Now it\'s time to ' + actualRoutineList[0].activity + '' );
                     LEDControl.showIdleFace(PixelColor.CYAN,PixelColor.CYAN);
                     timesTeskChecked = 0;
                   }
 
                   if(timesTeskChecked>0 && timesTeskChecked%5 == 0){
+                    console.log("Togo is sad");
                     LEDControl.showSadFace(PixelColor.BLUE, PixelColor.BLUE);
                   }
                   // finished process

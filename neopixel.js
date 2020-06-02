@@ -145,6 +145,7 @@ class FCController{
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
       FCController.facesPasses++;
+      console.log("Happy Face passes " + FCController.facesPasses);
       //  change mode to PIXEL_MODE
       var mods = FCController.getInstance().getModules();
 
@@ -164,6 +165,7 @@ class FCController{
   }
   static showSadFace(eyeColor, mouthColor){
       FCController.facesPasses++;
+      console.log("Sad Face passes " + FCController.facesPasses);
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
       var mods = FCController.getInstance().getModules();
@@ -230,21 +232,25 @@ class FCController{
   static showWhirlFace(eyeColor, mouthColor){
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
+      console.log("On Whirl face!");
       var mods = FCController.getInstance().getModules();
 
 
-      mods[0].setMainColor(eyeColor);
-      mods[0].setMode(NeopixelConstants.CHASE_MODE);
+      mods[0].setMainColor(mouthColor);
+      mods[0].setSecondaryColor(PixelColor.BLACK);
       mods[0].setLoopMode(NeopixelConstants.FORWARD);
+      mods[0].setMode(NeopixelConstants.CHASE_MODE);
 
 
       mods[1].setMainColor(eyeColor);
-      mods[1].setMode(NeopixelConstants.CHASE_MODE);
+      mods[1].setSecondaryColor(PixelColor.BLACK);
       mods[1].setLoopMode(NeopixelConstants.FORWARD);
+      mods[1].setMode(NeopixelConstants.CHASE_MODE);
 
       mods[2].setMainColor(eyeColor);
-      mods[2].setMode(NeopixelConstants.CHASE_MODE);
+      mods[2].setSecondaryColor(PixelColor.BLACK);
       mods[2].setLoopMode(NeopixelConstants.FORWARD);
+      mods[2].setMode(NeopixelConstants.CHASE_MODE);
   }
 
   static close(){
