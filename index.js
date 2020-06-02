@@ -245,6 +245,37 @@ let params = {
 };
 
 
+/**********PROCESS CONFIGURATION|*************************  */
+
+//process.stdin.resume();//so the program will not close instantly
+
+function exitHandler(options, exitCode) {
+
+    console.log("Trying to close everything!");
+
+    LEDControl.close();
+
+
+    if (options.cleanup) console.log('clean');
+    if (exitCode || exitCode === 0) console.log(exitCode);
+    if (options.exit) process.exit();
+}
+
+//do something when app is closing
+process.on('exit', exitHandler.bind(null,{cleanup:true}));
+
+//catches ctrl+c event
+process.on('SIGINT', exitHandler.bind(null, {exit:true}));
+
+// catches "kill pid" (for example: nodemon restart)
+process.on('SIGUSR1', exitHandler.bind(null, {exit:true}));
+process.on('SIGUSR2', exitHandler.bind(null, {exit:true}));
+
+//catches uncaught exceptions
+process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
+
+/*********************************************   */
+
 
 class GeneralComponents{
   static player = null;
@@ -331,10 +362,6 @@ Polly.synthesizeSpeech(params, (err, data) => {
 });
 
 /*
-TODO::
-1. Set config file
-2. Check if config file exists, if not, set default values
-3. load config values (maybe store them in settings)
 4. configure voice to go faster or slower with ssml
   SSML https://developer.amazon.com/it-IT/docs/alexa/custom-skills/speech-synthesis-markup-language-ssml-reference.html
 
@@ -427,7 +454,7 @@ function doStorytellRoutine(callback){
           LEDControl.setMode(NeopixelConstants.EYE_BLINK_MODE,2);
 
       } , 7000)*/
-      
+
       LEDControl.showIdleFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
     }else{
       // do nothing , kid's listening

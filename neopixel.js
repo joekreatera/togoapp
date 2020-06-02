@@ -83,9 +83,11 @@ class FCController{
 
     FCController.instance = this;
     this.fc = new FadeCandy();
+    this.closing = false;
     FCController.stripsConfigured = false;
     this.strips = new Array();
     this.data = null;
+    this.intervalFunctionId = 0;
   }
 
 
@@ -193,11 +195,44 @@ class FCController{
 
   }
 
+  static close(){
+      FCController.getInstance().close();
+  }
 
+  close(){
+    this.closing = true;
+    clearInterval(this.intervalFunctionId);
+    this.fc.removeListener(FadeCandy.events.COLOR_LUT_READY, this.initFCInterval);
+    this.fc.usb.device.close();
+  }
 /*
 this component should calculate frames according to timing. Is one timing for all but different frameTotals,
 so it can appear as different timings :D
 */
+
+  initFCInterval(){
+
+    function () {
+       if( !FCController.stripsConfigured){
+         console.log("ERROR! : no strips configured");
+         return;
+       }else{
+         FCController.getInstance().printDebugData();
+       }
+
+       this.intervalFunctionId = setInterval(function () {
+         if( FCController.syncFunction != null )
+           FCController.syncFunction();
+
+         var mods = FCController.getInstance().getModules();
+         for(var m = 0; m < mods.length; m++ ){
+           mods[m].update(FCController.getInstance().data);
+         }
+         FCController.getInstance().fc.send(FCController.getInstance().data)
+       }, 100);
+   }
+
+  }
 
   init(){
 
@@ -209,26 +244,7 @@ so it can appear as different timings :D
         FCController.getInstance().fc.config.set(FCController.getInstance().fc.Configuration.schema.LED_MODE, 1)
     });
 
-    this.fc.on(FadeCandy.events.COLOR_LUT_READY, function () {
-
-        if( !FCController.stripsConfigured){
-          console.log("ERROR! : no strips configured");
-          return;
-        }else{
-          FCController.getInstance().printDebugData();
-        }
-
-        setInterval(function () {
-          if( FCController.syncFunction != null )
-            FCController.syncFunction();
-
-          var mods = FCController.getInstance().getModules();
-          for(var m = 0; m < mods.length; m++ ){
-            mods[m].update(FCController.getInstance().data);
-          }
-          FCController.getInstance().fc.send(FCController.getInstance().data)
-        }, 100);
-    });
+    this.fc.on(FadeCandy.events.COLOR_LUT_READY, this.initFCInterval);
 
   }
 
