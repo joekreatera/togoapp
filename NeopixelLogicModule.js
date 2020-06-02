@@ -247,7 +247,7 @@ class NeopixelLogicModule{
             this.eyeBlink(this.mainColor, this.frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
             break;
         case NeopixelConstants.PIXEL_MODE:
-            if( this.pixelArray ) console.log("Pixel Array is Null on Pixel Mode RING LED");
+            if( this.pixelArray == null) console.log("Pixel Array is Null on Pixel Mode RING LED");
               this.onPixels(this.pixelArray, this.mainColor, this.frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
               break;
 

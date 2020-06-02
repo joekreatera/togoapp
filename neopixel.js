@@ -118,7 +118,7 @@ class FCController{
                                                         i*64,
                                                           configData.strips[i].leds,
                                                         25,
-                                                        (configData.strips[i].chaseWidth != undefined)?configData.pixelArray:null
+                                                        (configData.strips[i].pixelArray != undefined)?configData.pixelArray:null
                                                       )
                                                       );
     }
