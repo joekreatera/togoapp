@@ -45,7 +45,7 @@ class NeopixelLogicModule{
     this.frameTotals = ft; // should change this for seconds
   }
 
-  constructor(mc, sc, md,lm,cw,firstIndex,len,ft=25){
+  constructor(mc, sc, md,lm,cw,firstIndex,len,ft=25, pixelArray = null){
     this.mainColor = mc;
     this.secondaryColor = sc;
     this.colorFunction = null;
@@ -59,6 +59,7 @@ class NeopixelLogicModule{
     this.firstIndex = firstIndex;
     // same with totalLedCount
     this.totalLedCount = len;
+    this.pixelArray = pixelArray;
   }
 
   getDebugData(){
@@ -175,7 +176,6 @@ class NeopixelLogicModule{
 
     //var sinPct = Math.abs(Math.sin(pct*Math.PI));
     var step = pct/.2; // -> .2 is a constant required and taken out from the amount of steps needed.
-    console.log(this.firstIndex+" :: " + step  + " // " + pct );
 
     //divide the space based on index 0
     var startTop = (totalLedCount*1.0/2)/2-0.5; // with 16 leeds this should be the middle between 3 and 4 led
@@ -247,6 +247,7 @@ class NeopixelLogicModule{
             this.eyeBlink(this.mainColor, this.frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
             break;
         case NeopixelConstants.PIXEL_MODE:
+            if( this.pixelArray ) console.log("Pixel Array is Null on Pixel Mode RING LED");
               this.onPixels(this.pixelArray, this.mainColor, this.frame, this.frameTotals, data, this.firstIndex, this.totalLedCount);
               break;
 

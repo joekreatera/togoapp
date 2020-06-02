@@ -117,7 +117,10 @@ class FCController{
                                                         (configData.strips[i].chaseWidth != undefined)?configData.strips[i].chaseWidth:1,
                                                         i*64,
                                                           configData.strips[i].leds,
-                                                        25 ) );
+                                                        25,
+                                                        (configData.strips[i].chaseWidth != undefined)?configData.pixelArray:null
+                                                      )
+                                                      );
     }
     FCController.getInstance().data = new Uint8Array( configData.strips.length*64*3);
     FCController.stripsConfigured = true;
@@ -194,6 +197,7 @@ class FCController{
 
 
   }
+
 
   static close(){
       FCController.getInstance().close();

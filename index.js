@@ -701,12 +701,13 @@ var configData ={
     ledsPerStrip:16,
     strips:[
       {
-        mode:NeopixelConstants.CHASE_BREATH_MODE,
+        mode:NeopixelConstants.PIXEL_MODE,
         loopMode:NeopixelConstants.PING_PONG,
         mainColor:PixelColor.CYAN,
         secondaryColor:PixelColor.CYAN,
         leds:16,
-        chaseWidth:4
+        chaseWidth:4,
+        pixelArray:[0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1]
      },
       {
         mode:NeopixelConstants.EYE_BLINK_MODE,
