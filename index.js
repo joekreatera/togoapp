@@ -764,7 +764,7 @@ LEDControl.initInstance();
 LEDControl.configureStrips(configData);
 LEDControl.setFrameTotals(40,1);
 LEDControl.setFrameTotals(40,2);
-LEDControl.showHappyFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
+LEDControl.showIdleFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
 //LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
 
 LEDControl.start();
