@@ -471,7 +471,7 @@ function doStorytellRoutine(callback){
 function doBedtimeRoutine(callback){
   // check any of the alarms
   console.log("ENTERED ON BEDTIME ROUTINE GET");
-        LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
+
 
 
         let query = db.collection('routines').where('robot','==',myRobot).where('routine_name', '==' , 'bedtime');
@@ -500,8 +500,6 @@ function doBedtimeRoutine(callback){
 function doMorningRoutine(callback){
   // check any of the alarms
   console.log("ENTERED ON MORNING ROUTINE GET");
-
-        LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
 
         let query = db.collection('routines').where('robot','==',myRobot).where('routine_name', '==' , 'wakeup_week');
 
@@ -557,6 +555,7 @@ function doActivityCheck(cb){
     if( actualRoutineList.length > 0 ){
       LEDControl.showIdleFace(PixelColor.CYAN,PixelColor.CYAN);
       togoSpeak('Now it\'s time to ' + actualRoutineList[0].activity + '' );
+      timesTeskChecked = 0;
     }
     // finished process
     cb();
@@ -590,6 +589,7 @@ function doActivityCheck(cb){
                       }else{
                         actualRoutineList.shift();
                         doNextRouting = true;
+                        timesTeskChecked = 0;
                       }
 
                       db.collection('robot_events').doc(doc.id).update("status",1).catch((err)=>{
@@ -615,10 +615,10 @@ function doActivityCheck(cb){
                     togoSpeak('Let\'s do something else!' );
                   }
                   if( actualRoutineList.length > 0 ){
-                    console.log("Togo is on next");
+                    console.log("Togo is on next  " + timesTeskChecked);
                     togoSpeak('Now it\'s time to ' + actualRoutineList[0].activity + '' );
                     LEDControl.showIdleFace(PixelColor.CYAN,PixelColor.CYAN);
-                    timesTeskChecked = 0;
+
                   }
 
                   if(timesTeskChecked>0 && timesTeskChecked%5 == 0){
@@ -656,12 +656,16 @@ function syncData(){
   }
 
   if( state == MORNING_ROUTINE_GET){
+    LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
+
   doMorningRoutine( () => {
     setTimeout( syncData , 4000);
     } );
   }
 
   if( state == BEDTIME_ROUTINE_GET){
+    LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
+
   doBedtimeRoutine( () => {
     setTimeout( syncData , 4000);
     } );
@@ -755,6 +759,8 @@ LEDControl.configureStrips(configData);
 LEDControl.setFrameTotals(40,1);
 LEDControl.setFrameTotals(40,2);
 //LEDControl.showHappyFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
+LEDControl.showWhirlFace(PixelColor.PURPLE,PixelColor.PURPLE);
+
 LEDControl.start();
 
 setTimeout( syncData , 3000);
