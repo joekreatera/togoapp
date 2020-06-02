@@ -440,7 +440,7 @@ function doStorytellRoutine(callback){
 
   console.log("Telling story!");
 
-  LEDControl.showHappyFace( PixelColor.PURPLE, PixelColor.PURPLE );
+  LEDControl.showHappyFace( PixelColor.PURPLE, PixelColor.PURPLE , false);
 
   if( omxPlayer.running ){
 
@@ -464,6 +464,7 @@ function doStorytellRoutine(callback){
 
   }else{
     state = GENERAL_QUERY;
+    LEDControl.showIdleFace( LEDControl.buildColor(0,255,255) , LEDControl.buildColor(0,255,255) );
   }
 
   callback();

@@ -141,7 +141,7 @@ class FCController{
 
   }
 
-  static showHappyFace(eyeColor, mouthColor){
+  static showHappyFace(eyeColor, mouthColor , doCallBack = true){
       // supposes the order of the strips, 1 and 2 are eyes
       // 0 is mouth
       FCController.facesPasses++;
@@ -162,10 +162,12 @@ class FCController{
       mods[2].setMode(NeopixelConstants.PIXEL_MODE);
 
 
-      setTimeout(()=>{
-          console.log("DEFAULT TO IDLE FACE");
-          FCController.showIdleFace(FCController.buildColor(0,255,255) , FCController.buildColor(0,255,255) );
-        },3000);
+      if( doCallBack ){
+        setTimeout(()=>{
+            console.log("DEFAULT TO IDLE FACE");
+            FCController.showIdleFace(FCController.buildColor(0,255,255) , FCController.buildColor(0,255,255) );
+          },3000);
+      }
   }
   static showSadFace(eyeColor, mouthColor){
       FCController.facesPasses++;
