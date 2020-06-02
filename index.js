@@ -175,6 +175,7 @@ function listTodayEvents(auth, callback) {
       callback(finalEvents);
     } else {
       console.log('No upcoming events found.');
+      callback([]);
     }
   });
 }
